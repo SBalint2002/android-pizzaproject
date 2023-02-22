@@ -6,6 +6,14 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.material.navigation.NavigationView;
+
 import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.model.JwtResponse;
 import hu.pizzavalto.pizzaproject.model.User;
@@ -17,33 +25,49 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainPage extends AppCompatActivity {
-    private TextView id, first_name, last_name, email, admin;
-    private Button logOutButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
-        init();
+
+        /*TokenUtils tokenUtils = new TokenUtils(MainPage.this);
+        tokenUtils.saveAccessToken(null);
+        tokenUtils.setRefreshToken(null);*/
+
+
+        //init();
+
+        final DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+
+        findViewById(R.id.imageMenu).setOnClickListener(view -> {
+            drawerLayout.openDrawer(GravityCompat.START);
+        });
+
+        //ne legyen fekete a egyik icon se
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        navigationView.setItemIconTintList(null);
+
+
+        NavController navController = Navigation.findNavController(this, R.id.navHostFragment);
+        NavigationUI.setupWithNavController(navigationView, navController);
+
+
+
+
         getUserInformation();
 
-        logOutButton.setOnClickListener(view -> {
+        /*logOutButton.setOnClickListener(view -> {
             TokenUtils tokenUtils = new TokenUtils(MainPage.this);
             tokenUtils.clearTokens();
             navigateToLoginActivity();
-        });
+        });*/
     }
 
-    private void init() {
-        id = findViewById(R.id.id);
-        first_name = findViewById(R.id.firstname);
-        last_name = findViewById(R.id.lastname);
-        email = findViewById(R.id.email);
-        admin = findViewById(R.id.admin);
 
-        logOutButton = findViewById(R.id.LogOutButton);
-    }
+    /*private void init() {
+
+    }*/
 
 
 
@@ -68,11 +92,7 @@ public class MainPage extends AppCompatActivity {
 
                                 System.out.println(response.body());
 
-                                id.setText(String.valueOf(user.getId()));
-                                first_name.setText(user.getFirst_name());
-                                last_name.setText(user.getLast_name());
-                                email.setText(user.getEmail());
-                                admin.setText(String.valueOf(user.isAdmin()));
+                                //adatok kiírása
                             } else if (response.code() == 451) {
                                 //Ha visszakapom azt hogy lejárt a token akkor kérek egy újat
                                 String refreshToken = tokenUtils.getRefreshToken();

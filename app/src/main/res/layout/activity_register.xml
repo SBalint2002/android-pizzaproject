@@ -97,7 +97,7 @@
                 android:layout_marginTop="20dp"
                 android:backgroundTint="#333333"
                 android:text="@string/register"
-                android:textColor="@color/white"
+                android:textColor="@color/colorWhite"
                 android:textSize="20sp" />
 
             <LinearLayout
@@ -117,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5sp"
                     android:text="@string/login"
-                    android:textColor="@color/purple_700" />
+                    android:textColor="@color/colorPrimary" />
 
             </LinearLayout>
 
