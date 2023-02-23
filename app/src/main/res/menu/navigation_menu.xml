@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fitsSystemWindows="true">
+
+    <item
+        android:id="@+id/menuProfile"
+        android:icon="@drawable/baseline_person_24"
+        android:title="@string/profile" />
+
+    <item
+        android:id="@+id/menuMenu"
+        android:icon="@drawable/baseline_fastfood_24"
+        android:title="@string/menu" />
+
+    <item
+        android:id="@+id/menuCart"
+        android:icon="@drawable/baseline_shopping_cart_24"
+        android:title="@string/shoppingCart" />
+    <item android:title="@string/others">
+
+        <menu>
+
+            <item
+                android:id="@+id/menuSupport"
+                android:icon="@drawable/baseline_support_agent_24"
+                android:title="@string/support" />
+
+            <item
+                android:id="@+id/menuAboutUs"
+                android:icon="@drawable/baseline_info_24"
+                android:title="@string/aboutUs" />
+
+            <item
+                android:id="@+id/menuSettings"
+                android:icon="@drawable/baseline_settings_24"
+                android:title="@string/settings" />
+
+            <item
+                android:id="@+id/menuLogout"
+                android:icon="@drawable/baseline_logout_24"
+                android:title="@string/logout" />
+
+        </menu>
+
+    </item>
+
+</menu>

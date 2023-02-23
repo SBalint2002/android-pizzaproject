@@ -9,4 +9,12 @@
     <string name="lastname">Vezetéknév</string>
     <string name="registernow">Regisztrálj</string>
     <string name="noaccount">Még nincs fiókod?</string>
+    <string name="profile">Profil</string>
+    <string name="shoppingCart">Kosár</string>
+    <string name="aboutUs">Rólunk</string>
+    <string name="logout">Kijelentkezés</string>
+    <string name="support">Ügyfélszolgálat</string>
+    <string name="others">További beállítások</string>
+    <string name="settings">Beállítások</string>
+    <string name="menu">Menü</string>
 </resources>
