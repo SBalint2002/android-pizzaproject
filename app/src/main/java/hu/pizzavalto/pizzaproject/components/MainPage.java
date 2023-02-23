@@ -1,10 +1,17 @@
 package hu.pizzavalto.pizzaproject.components;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -25,120 +32,124 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainPage extends AppCompatActivity {
+
+    private TextView profileNameTextView;
+    private TextView profileRoleTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        /*TokenUtils tokenUtils = new TokenUtils(MainPage.this);
-        tokenUtils.saveAccessToken(null);
-        tokenUtils.setRefreshToken(null);*/
+        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        findViewById(R.id.imageMenu).setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
-
-        //init();
-
-        final DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-
-        findViewById(R.id.imageMenu).setOnClickListener(view -> {
-            drawerLayout.openDrawer(GravityCompat.START);
-        });
-
-        //ne legyen fekete a egyik icon se
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.setItemIconTintList(null);
-
-
+        View headerView = navigationView.getHeaderView(0);
+        profileNameTextView = headerView.findViewById(R.id.ProfileName);
+        profileRoleTextView = headerView.findViewById(R.id.ProfileRole);
         NavController navController = Navigation.findNavController(this, R.id.navHostFragment);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
-
+        Menu menu = navigationView.getMenu();
+        MenuItem logoutMenuItem = menu.findItem(R.id.menuLogout);
+        logoutMenuItem.setOnMenuItemClickListener(menuItem -> {
+            showLogoutConfirmationDialog();
+            return true;
+        });
 
         getUserInformation();
 
-        /*logOutButton.setOnClickListener(view -> {
-            TokenUtils tokenUtils = new TokenUtils(MainPage.this);
-            tokenUtils.clearTokens();
-            navigateToLoginActivity();
-        });*/
+        logoutMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                showLogoutConfirmationDialog();
+                return true;
+            }
+        });
     }
 
 
-    /*private void init() {
-
-    }*/
-
+    private void showLogoutConfirmationDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Biztosan ki akarsz lépni?")
+                .setPositiveButton("Igen", (dialogInterface, i) -> {
+                    TokenUtils tokenUtils = new TokenUtils(MainPage.this);
+                    tokenUtils.clearTokens();
+                    navigateToLoginActivity();
+                })
+                .setNegativeButton("Nem", (dialogInterface, i) -> dialogInterface.dismiss())
+                .show();
+    }
 
 
     public void getUserInformation() {
         TokenUtils tokenUtils = new TokenUtils(MainPage.this);
         String accessToken = tokenUtils.getAccessToken();
+        if (accessToken == null) {
+            navigateToLoginActivity();
+            return;
+        }
 
-        //Api request-ek kezelésére
         NetworkService networkService = new NetworkService();
         UserApi userApi = networkService.getRetrofit().create(UserApi.class);
-        if (accessToken != null) {
-            userApi.getUserInformation("Bearer " + accessToken)
-                    .enqueue(new Callback<User>() {
-                        @Override
-                        public void onResponse(Call<User> call, Response<User> response) {
-                            if (response.isSuccessful()) {
-                                //Ha sikeres a kérés és kapok egy user típusú json-t
+        userApi.getUserInformation("Bearer " + accessToken).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (!response.isSuccessful()) {
+                    if (response.code() == 451) {
+                        handleTokenRefresh(tokenUtils, userApi);
+                    } else if (response.code() == 401) {
+                        navigateToLoginActivity();
+                    } else {
+                        navigateToLoginActivity();
+                    }
+                    return;
+                }
+                User user = response.body();
+                profileNameTextView.setText(user.getLast_name());
+                profileRoleTextView.setText(user.isAdmin() ? "Admin" : "Felhasználó");
+                profileRoleTextView.setTextColor(Color.parseColor(user.isAdmin() ? "#FF0000" : "#00FF00"));
+            }
 
-                                System.out.println("Sikeres lekérés");
-
-                                User user = response.body();
-
-                                System.out.println(response.body());
-
-                                //adatok kiírása
-                            } else if (response.code() == 451) {
-                                //Ha visszakapom azt hogy lejárt a token akkor kérek egy újat
-                                String refreshToken = tokenUtils.getRefreshToken();
-                                if (refreshToken != null) {
-                                    TokenUtils.refreshUserToken(tokenUtils, userApi, new Callback<JwtResponse>() {
-                                        @Override
-                                        public void onResponse(Call<JwtResponse> call, Response<JwtResponse> response) {
-                                            if (response.isSuccessful()) {
-                                                JwtResponse jwtResponse = response.body();
-                                                tokenUtils.saveAccessToken(jwtResponse.getJwttoken());
-                                                tokenUtils.setRefreshToken(jwtResponse.getRefreshToken());
-                                                getUserInformation();
-                                            }else {
-                                                navigateToLoginActivity();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<JwtResponse> call, Throwable t) {
-                                            navigateToLoginActivity();
-                                        }
-                                    });
-                                }else{
-                                    //hiányzó refresh token
-                                    System.out.println("Hiányzó refreshtoken");
-                                    navigateToLoginActivity();
-                                }
-                            } else if (response.code() == 401) {
-                                //unauthorized
-                                System.out.println("Lejárt refresh");
-                                navigateToLoginActivity();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<User> call, Throwable t) {
-                            //network error
-                            System.out.println(t);
-                            navigateToLoginActivity();
-                        }
-                    });
-        } else {
-            //Refreshtoken Null
-            navigateToLoginActivity();
-        }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                navigateToLoginActivity();
+            }
+        });
     }
+
+    private void handleTokenRefresh(TokenUtils tokenUtils, UserApi userApi) {
+        String refreshToken = tokenUtils.getRefreshToken();
+        if (refreshToken == null) {
+            System.out.println("Hiányzó refreshtoken");
+            navigateToLoginActivity();
+            return;
+        }
+
+        TokenUtils.refreshUserToken(tokenUtils, userApi, new Callback<JwtResponse>() {
+            @Override
+            public void onResponse(Call<JwtResponse> call, Response<JwtResponse> response) {
+                if (!response.isSuccessful()) {
+                    navigateToLoginActivity();
+                    return;
+                }
+
+                JwtResponse jwtResponse = response.body();
+                tokenUtils.saveAccessToken(jwtResponse.getJwttoken());
+                tokenUtils.setRefreshToken(jwtResponse.getRefreshToken());
+                getUserInformation();
+            }
+
+            @Override
+            public void onFailure(Call<JwtResponse> call, Throwable t) {
+                navigateToLoginActivity();
+            }
+        });
+    }
+
 
     private void navigateToLoginActivity() {
         //Intent
