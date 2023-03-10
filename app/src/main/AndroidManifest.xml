@@ -16,9 +16,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".components.LoginActivity$ProfileActivity"
-            android:exported="false" />
-        <activity
             android:name=".components.RegisterActivity"
             android:exported="false">
             <intent-filter>
