@@ -17,4 +17,19 @@
     <string name="others">További beállítások</string>
     <string name="settings">Beállítások</string>
     <string name="menu">Menü</string>
+    <string name="edit">Szerkesztés</string>
+    <string name="save">Mentés</string>
+    <string name="role">Szerep</string>
+    <string name="emailaddress">Email cím</string>
+    <string name="motto">\"Mi a legjobb dolog, amit szeletelve lehet enni? Pizzát persze! Rendeld meg tőlünk és garantáljuk, hogy szeletelve, de nem apróra vágva érkezik!\"</string>
+    <string name="pictureofapizza">Kép egy pizzáról</string>
+    <string name="doyouhavequestion">Kérdésed van?</string>
+    <string name="dont">Ne legyen!</string>
+    <string name="phonecontact">Telefonos elérhetőségek</string>
+    <string name="telefonszam1">+36-30-646-1813</string>
+    <string name="telefonszam2">+36-30-356-2465</string>
+    <string name="emailcontact">Email címes elérhetőség</string>
+    <string name="supportaddress">info@pizzavalto.hu</string>
+    <string name="callus">Keress bennünket bátran!</string>
+    <string name="menubutton">Menu</string>
 </resources>

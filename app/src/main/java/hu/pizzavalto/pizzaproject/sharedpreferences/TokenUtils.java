@@ -13,10 +13,8 @@ public class TokenUtils {
     private static final String REFRESH_TOKEN_KEY = "RcA9tu0SORJfqQkFjZvITMzFhPph3V5DVSLXaIn9";
 
     private final SharedPreferences sharedPreferences;
-    private final Context context;
 
     public TokenUtils(Context context) {
-        this.context = context;
         sharedPreferences = context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
     }
 
@@ -54,30 +52,5 @@ public class TokenUtils {
             userApi.refreshToken(refreshRequest).enqueue(callback);
         }
     }
-
-    /*public String refreshToken() throws IOException {
-        String refreshToken = this.getRefreshToken();
-
-        NetworkService networkService = new NetworkService();
-        UserApi userApi = networkService.getRetrofit().create(UserApi.class);
-
-        if (refreshToken == null) {
-            System.out.println("Hiányzó refreshtoken");
-            return null;
-        }
-
-        RefreshRequest refreshRequest = new RefreshRequest(refreshToken);
-        Response<JwtResponse> resp = userApi.refreshToken(refreshRequest).execute();
-
-        if (resp.isSuccessful()) {
-            JwtResponse jwt = resp.body();
-
-            return jwt == null ? null : jwt.getJwttoken();
-        } else {
-            System.out.println("Hibás refresh token");
-        }
-
-        return null;
-    }*/
 }
 

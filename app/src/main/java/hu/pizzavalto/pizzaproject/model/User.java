@@ -1,5 +1,9 @@
 package hu.pizzavalto.pizzaproject.model;
 
+import android.content.Context;
+
+import hu.pizzavalto.pizzaproject.fragments.ProfileFragment;
+
 public class User {
     private Long id;
     private String first_name;
@@ -7,6 +11,7 @@ public class User {
     private String email;
     private String password;
     private boolean admin;
+
 
     //Üres konstruktor
     public User() {

@@ -6,4 +6,6 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorGreen">#32CD32</color>
+    <color name="colorlightgray">#EEEEEE</color>
+    <color name="colorlightgray2">#AAAAAA</color>
 </resources>

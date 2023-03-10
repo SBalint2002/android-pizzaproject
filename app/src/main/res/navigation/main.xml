@@ -8,17 +8,17 @@
     <fragment
         android:id="@+id/menuProfile"
         android:name="hu.pizzavalto.pizzaproject.fragments.ProfileFragment"
-        android:label="Profile"
+        android:label="Profil"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/menuMenu"
         android:name="hu.pizzavalto.pizzaproject.fragments.MenuFragment"
-        android:label="fragment_menu"
+        android:label="Menü"
         tools:layout="@layout/fragment_menu" />
     <fragment
         android:id="@+id/menuCart"
         android:name="hu.pizzavalto.pizzaproject.fragments.CartFragment"
-        android:label="Shopping cart"
+        android:label="Kosár"
         tools:layout="@layout/fragment_cart" />
     <fragment
         android:id="@+id/menuSupport"
@@ -28,11 +28,11 @@
     <fragment
         android:id="@+id/menuAboutUs"
         android:name="hu.pizzavalto.pizzaproject.fragments.AboutUsFragment"
-        android:label="About us"
+        android:label="Rólunk"
         tools:layout="@layout/fragment_about_us" />
     <fragment
         android:id="@+id/menuSettings"
         android:name="hu.pizzavalto.pizzaproject.fragments.SettingsFragment"
-        android:label="Settings"
+        android:label="Beállítások"
         tools:layout="@layout/fragment_settings" />
 </navigation>

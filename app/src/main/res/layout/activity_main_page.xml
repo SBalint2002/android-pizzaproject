@@ -27,6 +27,7 @@
                 android:id="@+id/imageMenu"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:contentDescription="@string/menubutton"
                 android:src="@drawable/baseline_menu_24"
                 app:tint="@color/colorWhite" />
             
@@ -43,14 +44,14 @@
         </LinearLayout>
 
         <fragment
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/layoutToolBar"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/navHostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/main"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutToolBar"
+            app:navGraph="@navigation/main" />
         
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -58,8 +59,8 @@
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        app:menu="@menu/navigation_menu"
+        android:layout_gravity="start"
         app:headerLayout="@layout/layout_navigation_header"
-        android:layout_gravity="start"/>
+        app:menu="@menu/navigation_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>
