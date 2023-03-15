@@ -16,8 +16,6 @@
     <string name="support">Ügyfélszolgálat</string>
     <string name="others">További beállítások</string>
     <string name="settings">Beállítások</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="menu">Menü</string>
     <string name="edit">Szerkesztés</string>
     <string name="save">Mentés</string>
@@ -29,10 +27,22 @@
     <string name="doyouhavequestion">Kérdésed van?</string>
     <string name="dont">Ne legyen!</string>
     <string name="phonecontact">Telefonos elérhetőségek</string>
-    <string name="telefonszam1">+36-30-646-1813</string>
-    <string name="telefonszam2">+36-30-356-2465</string>
+    <string name="telefonszam1">+36–30-646-1813</string>
+    <string name="telefonszam2">+36–30-356-2465</string>
     <string name="emailcontact">Email címes elérhetőség</string>
     <string name="supportaddress">info@pizzavalto.hu</string>
     <string name="callus">Keress bennünket bátran!</string>
     <string name="menubutton">Menu</string>
+    <string name="order_button_text">Rendelés</string>
+    <string name="pizza_picture">Pizza kép</string>
+    <string name="no">Mégsem</string>
+    <string name="add">Hozzáadás</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="addtobasket">Hozzáadás kosárhoz</string>
+    <string name="quantity">Mennyiség:</string>
+    <string name="pizza_price">Ár: %d Ft</string>
+    <string name="one">1</string>
+    <string name="delete">Törlés</string>
+    <string name="pizza_name">Pizza neve</string>
 </resources>

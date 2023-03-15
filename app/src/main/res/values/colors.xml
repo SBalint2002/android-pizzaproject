@@ -8,4 +8,7 @@
     <color name="colorGreen">#32CD32</color>
     <color name="colorlightgray">#EEEEEE</color>
     <color name="colorlightgray2">#AAAAAA</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="blue">#0000FF</color>
 </resources>

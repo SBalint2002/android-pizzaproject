@@ -41,74 +41,74 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="@string/lastname"
             android:textColor="@color/colorPrimaryText"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/profileLastName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/edit_text_bg"
             android:hint="@string/lastname"
             android:inputType="text"
             android:maxLines="1"
+            android:paddingStart="5sp"
             android:singleLine="true"
             android:textColor="@color/colorPrimaryText"
             android:textColorHint="#7F7F7F"
-            android:textSize="18sp"
-            android:paddingStart="5sp"
-            android:layout_marginBottom="20dp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="@string/firstname"
             android:textColor="@color/colorPrimaryText"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/profileFirstName"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/edit_text_bg"
             android:hint="@string/firstname"
             android:inputType="text"
             android:maxLines="1"
+            android:paddingStart="5sp"
             android:singleLine="true"
             android:textColor="@color/colorPrimaryText"
             android:textColorHint="#7F7F7F"
-            android:textSize="18sp"
-            android:paddingStart="5sp"
-            android:layout_marginBottom="20dp"/>
+            android:textSize="18sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:text="@string/emailaddress"
             android:textColor="@color/colorPrimaryText"
             android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/profileEmail"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/edit_text_bg"
             android:hint="@string/emailaddress"
             android:inputType="textEmailAddress"
             android:maxLines="1"
+            android:paddingStart="5sp"
             android:singleLine="true"
             android:textColor="@color/colorPrimaryText"
             android:textColorHint="#7F7F7F"
-            android:textSize="18sp"
-            android:paddingStart="5sp"
-            android:layout_marginBottom="20dp"/>
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -117,6 +117,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
+        android:enabled="false"
         android:text="@string/save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

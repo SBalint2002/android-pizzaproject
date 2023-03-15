@@ -2,8 +2,8 @@ package hu.pizzavalto.pizzaproject.sharedpreferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import hu.pizzavalto.pizzaproject.model.JwtResponse;
-import hu.pizzavalto.pizzaproject.model.RefreshRequest;
+import hu.pizzavalto.pizzaproject.auth.JwtResponse;
+import hu.pizzavalto.pizzaproject.auth.RefreshRequest;
 import hu.pizzavalto.pizzaproject.retrofit.UserApi;
 import retrofit2.Callback;
 
