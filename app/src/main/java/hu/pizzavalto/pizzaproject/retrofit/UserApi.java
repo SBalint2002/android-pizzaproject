@@ -1,7 +1,9 @@
 package hu.pizzavalto.pizzaproject.retrofit;
 
-import hu.pizzavalto.pizzaproject.model.JwtResponse;
-import hu.pizzavalto.pizzaproject.model.RefreshRequest;
+import java.util.List;
+import hu.pizzavalto.pizzaproject.auth.JwtResponse;
+import hu.pizzavalto.pizzaproject.model.Pizza;
+import hu.pizzavalto.pizzaproject.auth.RefreshRequest;
 import hu.pizzavalto.pizzaproject.model.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -22,4 +24,7 @@ public interface UserApi {
 
     @POST("/user/refresh")
     Call<JwtResponse> refreshToken(@Body RefreshRequest refreshRequest);
+
+    @GET("/pizza/get-all")
+    Call<List<Pizza>> getAllPizzas();
 }

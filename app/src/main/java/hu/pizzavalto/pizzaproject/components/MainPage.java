@@ -1,5 +1,6 @@
 package hu.pizzavalto.pizzaproject.components;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -7,24 +8,22 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 
 import hu.pizzavalto.pizzaproject.R;
-import hu.pizzavalto.pizzaproject.fragments.ProfileFragment;
-import hu.pizzavalto.pizzaproject.model.JwtResponse;
+import hu.pizzavalto.pizzaproject.auth.JwtResponse;
 import hu.pizzavalto.pizzaproject.model.User;
 import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
 import hu.pizzavalto.pizzaproject.retrofit.UserApi;
@@ -38,51 +37,62 @@ public class MainPage extends AppCompatActivity {
     private TextView profileRoleTextView;
     private TextView textTitle;
     private User user;
+    private ImageButton shoppingCartButton;
+    private DrawerLayout mainPageLayout;
+    private MenuItem logoutMenuItem;
+    private NavController navController;
 
+    @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
 
-        //Drawer Layout
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        findViewById(R.id.imageMenu).setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
+        init();
+        getUserInformation();
 
-        //NavigationView
-        NavigationView navigationView = findViewById(R.id.navigationView);
+        shoppingCartButton.setOnClickListener(view -> {
+            //TODO: ÁTNAVIGÁLÁS
+            //navController.navigate(R.id.menuCart);
+        });
 
-        //Maradjon az összes ikon fekete még ha ki is van jelölve
-        navigationView.setItemIconTintList(null);
-
-        //Navigation Header
-        View headerView = navigationView.getHeaderView(0);
-        profileNameTextView = headerView.findViewById(R.id.ProfileName);
-        profileRoleTextView = headerView.findViewById(R.id.ProfileRole);
-
-        Menu menu = navigationView.getMenu();
-
-        //Kilépés
-        MenuItem logoutMenuItem = menu.findItem(R.id.menuLogout);
         logoutMenuItem.setOnMenuItemClickListener(menuItem -> {
             showLogoutConfirmationDialog();
             return true;
         });
 
-        getUserInformation();
-
-        //Appbar cím változik az aktív fragment label-jére
-        textTitle = findViewById(R.id.textTitle);
-        NavController navController = Navigation.findNavController(this, R.id.navHostFragment);
-        NavigationUI.setupWithNavController(navigationView, navController);
-
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            textTitle.setText(destination.getLabel());
-        });
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> textTitle.setText(destination.getLabel()));
     }
 
     public User getUser(){
         return user;
+    }
+
+    private void init(){
+        //NavigationView settings
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        navigationView.setItemIconTintList(null);
+
+        //NavigationView header name and role
+        View headerView = navigationView.getHeaderView(0);
+        profileNameTextView = headerView.findViewById(R.id.ProfileName);
+        profileRoleTextView = headerView.findViewById(R.id.ProfileRole);
+
+
+        Menu menu = navigationView.getMenu();
+        logoutMenuItem = menu.findItem(R.id.menuLogout);
+
+        shoppingCartButton = findViewById(R.id.shoppingCartButton);
+
+        textTitle = findViewById(R.id.textTitle);
+
+        //Display menu from the side
+        mainPageLayout = findViewById(R.id.mainPageLayout);
+        findViewById(R.id.imageMenu).setOnClickListener(view -> mainPageLayout.openDrawer(GravityCompat.START));
+
+        navController = Navigation.findNavController(this, R.id.navHostFragment);
+        NavigationUI.setupWithNavController(navigationView, navController);
     }
 
     private void showLogoutConfirmationDialog() {
@@ -97,17 +107,6 @@ public class MainPage extends AppCompatActivity {
                 .show();
     }
 
-    private void setBundle(User user) {
-        Bundle bundle = new Bundle();
-        bundle.putString("first_name", user.getFirst_name());
-        bundle.putString("last_name", user.getLast_name());
-        bundle.putString("email", user.getEmail());
-        bundle.putString("admin", user.isAdmin() ? "true" : "false");
-
-        ProfileFragment profileFragment = new ProfileFragment();
-        profileFragment.setArguments(bundle);
-    }
-
     public void getUserInformation() {
         TokenUtils tokenUtils = new TokenUtils(MainPage.this);
         String accessToken = tokenUtils.getAccessToken();
@@ -116,34 +115,39 @@ public class MainPage extends AppCompatActivity {
             return;
         }
 
-        NetworkService networkService = new NetworkService();
-        UserApi userApi = networkService.getRetrofit().create(UserApi.class);
+        UserApi userApi = new NetworkService().getRetrofit().create(UserApi.class);
         userApi.getUserInformation("Bearer " + accessToken).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (!response.isSuccessful()) {
-                    if (response.code() == 451) {
-                        handleTokenRefresh(tokenUtils, userApi);
-                    } else if (response.code() == 401) {
-                        navigateToLoginActivity();
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+                if (response.isSuccessful()) {
+                    User user = response.body();
+                    if (user != null) {
+                        profileNameTextView.setText(user.getFirst_name());
+                        profileRoleTextView.setText(user.isAdmin() ? "Admin" : "Felhasználó");
+                        profileRoleTextView.setTextColor(Color.parseColor(user.isAdmin() ? "#FF0000" : "#00FF00"));
+                        MainPage.this.user = user;
                     } else {
                         navigateToLoginActivity();
                     }
-                    return;
+
+                } else {
+                    handleResponseCode(response.code(), tokenUtils, userApi);
                 }
-                User user = response.body();
-                profileNameTextView.setText(user.getFirst_name());
-                profileRoleTextView.setText(user.isAdmin() ? "Admin" : "Felhasználó");
-                profileRoleTextView.setTextColor(Color.parseColor(user.isAdmin() ? "#FF0000" : "#00FF00"));
-                setBundle(user);
-                MainPage.this.user = user;
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 navigateToLoginActivity();
             }
         });
+    }
+
+    private void handleResponseCode(int code, TokenUtils tokenUtils, UserApi userApi) {
+        if (code == 451) {
+            handleTokenRefresh(tokenUtils, userApi);
+        } else {
+            navigateToLoginActivity();
+        }
     }
 
     private void handleTokenRefresh(TokenUtils tokenUtils, UserApi userApi) {
@@ -156,27 +160,30 @@ public class MainPage extends AppCompatActivity {
 
         TokenUtils.refreshUserToken(tokenUtils, userApi, new Callback<JwtResponse>() {
             @Override
-            public void onResponse(Call<JwtResponse> call, Response<JwtResponse> response) {
-                if (!response.isSuccessful()) {
+            public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
+                if (response.isSuccessful()) {
+                    JwtResponse jwtResponse = response.body();
+                    if (jwtResponse != null && jwtResponse.getJwttoken() != null) {
+                        tokenUtils.saveAccessToken(jwtResponse.getJwttoken());
+                        tokenUtils.setRefreshToken(jwtResponse.getRefreshToken());
+                        getUserInformation();
+                    } else {
+                        navigateToLoginActivity();
+                    }
+                } else {
                     navigateToLoginActivity();
-                    return;
                 }
 
-                JwtResponse jwtResponse = response.body();
-                tokenUtils.saveAccessToken(jwtResponse.getJwttoken());
-                tokenUtils.setRefreshToken(jwtResponse.getRefreshToken());
-                getUserInformation();
             }
 
             @Override
-            public void onFailure(Call<JwtResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<JwtResponse> call, @NonNull Throwable t) {
                 navigateToLoginActivity();
             }
         });
     }
 
     private void navigateToLoginActivity() {
-        //Intent
         startActivity(new Intent(MainPage.this, LoginActivity.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         finish();

@@ -1,4 +1,4 @@
-package hu.pizzavalto.pizzaproject.model;
+package hu.pizzavalto.pizzaproject.auth;
 
 public class RefreshRequest {
     private String refreshToken;

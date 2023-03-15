@@ -1,8 +1,6 @@
 package hu.pizzavalto.pizzaproject.model;
 
-import android.content.Context;
-
-import hu.pizzavalto.pizzaproject.fragments.ProfileFragment;
+import androidx.annotation.NonNull;
 
 public class User {
     private Long id;
@@ -89,6 +87,7 @@ public class User {
         this.admin = admin;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "User{" +
