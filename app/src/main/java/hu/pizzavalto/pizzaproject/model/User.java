@@ -16,12 +16,6 @@ public class User {
 
     }
 
-    public User(String email, String password){
-        this.email = email;
-        this.password = password;
-    }
-
-    //Mindent is kérek
     public User(Long id, String first_name, String last_name, String email, String password, boolean admin) {
         this.id = id;
         this.first_name = first_name;
@@ -29,6 +23,15 @@ public class User {
         this.email = email;
         this.password = password;
         this.admin = admin;
+    }
+
+    //Mindent is kérek
+    public User(Long id, String first_name, String last_name, String email, String password) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.password = password;
     }
 
     //Főbb felhasználói adatok bejelentkezéshez

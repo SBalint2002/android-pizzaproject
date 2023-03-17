@@ -1,6 +1,7 @@
 package hu.pizzavalto.pizzaproject.retrofit;
 
 import java.util.List;
+
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
 import hu.pizzavalto.pizzaproject.model.Pizza;
 import hu.pizzavalto.pizzaproject.auth.RefreshRequest;
@@ -10,6 +11,8 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface UserApi {
 
@@ -27,4 +30,8 @@ public interface UserApi {
 
     @GET("/pizza/get-all")
     Call<List<Pizza>> getAllPizzas();
+
+    @PUT("/user/{userId}")
+    Call<String> saveUser(@Header("Authorization") String token, @Path("userId") Long userId, @Body User user);
+
 }

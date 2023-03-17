@@ -125,6 +125,7 @@ public class MainPage extends AppCompatActivity {
                         profileNameTextView.setText(user.getFirst_name());
                         profileRoleTextView.setText(user.isAdmin() ? "Admin" : "Felhasználó");
                         profileRoleTextView.setTextColor(Color.parseColor(user.isAdmin() ? "#FF0000" : "#00FF00"));
+                        System.out.println(user);
                         MainPage.this.user = user;
                     } else {
                         navigateToLoginActivity();

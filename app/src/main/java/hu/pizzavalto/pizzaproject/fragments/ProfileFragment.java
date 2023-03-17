@@ -19,6 +19,7 @@ import hu.pizzavalto.pizzaproject.components.LoginActivity;
 import hu.pizzavalto.pizzaproject.components.MainPage;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
 import hu.pizzavalto.pizzaproject.model.User;
+import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
 import hu.pizzavalto.pizzaproject.retrofit.UserApi;
 import hu.pizzavalto.pizzaproject.sharedpreferences.TokenUtils;
 import retrofit2.Call;
@@ -30,9 +31,11 @@ import retrofit2.Response;
  */
 public class ProfileFragment extends Fragment {
 
-    private EditText profileLastName, profileFirstName, profileEmail;
+    private EditText profileLastName, profileFirstName, profileEmail, profilePassword;
     private Button saveProfileButton;
     private String originalLastName, originalFirstName, originalEmail;
+    private User user;
+    private User modifyUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,14 +47,31 @@ public class ProfileFragment extends Fragment {
         profileLastName.setText(user.getLast_name());
         profileFirstName.setText(user.getFirst_name());
         profileEmail.setText(user.getEmail());
+        profilePassword.setText("");
 
         // Add a TextWatcher to detect changes in any of the EditText fields.
         profileLastName.addTextChangedListener(textWatcher);
         profileFirstName.addTextChangedListener(textWatcher);
         profileEmail.addTextChangedListener(textWatcher);
+        profilePassword.addTextChangedListener(textWatcher);
 
         saveProfileButton.setOnClickListener(saveProfile -> {
-            //saveUser();
+            String password = null;
+            if (!profilePassword.getText().toString().isEmpty()){
+                if (profilePassword.getText().length() < 6){
+                    System.out.println("Legalább 6 karakter legyen");
+                    return;
+                }
+                password = profilePassword.getText().toString();
+            }
+            modifyUser = new User(
+                    user.getId(),
+                    profileFirstName.getText().toString(),
+                    profileLastName.getText().toString(),
+                    profileEmail.getText().toString(),
+                    password,
+                    user.isAdmin());
+            saveUserInformation();
         });
 
         return view;
@@ -59,14 +79,15 @@ public class ProfileFragment extends Fragment {
 
     private final TextWatcher textWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
 
         @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
 
         @Override
         public void afterTextChanged(Editable s) {
-            // Enable the save button when any of the EditText fields have changed.
             saveProfileButton.setEnabled(hasChanges());
         }
     };
@@ -75,11 +96,12 @@ public class ProfileFragment extends Fragment {
         profileLastName = view.findViewById(R.id.profileLastName);
         profileFirstName = view.findViewById(R.id.profileFirstName);
         profileEmail = view.findViewById(R.id.profileEmail);
+        profilePassword = view.findViewById(R.id.profilePassword);
 
         saveProfileButton = view.findViewById(R.id.saveProfileButton);
         saveProfileButton.setEnabled(!hasChanges());
 
-        User user = ((MainPage) requireActivity()).getUser();
+        user = ((MainPage) requireActivity()).getUser();
         originalLastName = user.getLast_name();
         originalFirstName = user.getFirst_name();
         originalEmail = user.getEmail();
@@ -89,48 +111,56 @@ public class ProfileFragment extends Fragment {
         String currentLastName = profileLastName.getText().toString().trim();
         String currentFirstName = profileFirstName.getText().toString().trim();
         String currentEmail = profileEmail.getText().toString().trim();
+        String currentPassword = profilePassword.getText().toString().trim();
 
-        return !currentLastName.equals(originalLastName) || !currentFirstName.equals(originalFirstName) || !currentEmail.equals(originalEmail);
+        return !currentLastName.equals(originalLastName)
+                || !currentFirstName.equals(originalFirstName)
+                || !currentEmail.equals(originalEmail)
+                || !currentPassword.isEmpty();
     }
 
-    //getAllPizzas helyett save user
-    /*private void saveUser(){
-        TokenUtils tokenUtils = new TokenUtils(getActivity());
+    private void saveUserInformation() {
+        TokenUtils tokenUtils = new TokenUtils(requireActivity());
         String accessToken = tokenUtils.getAccessToken();
         if (accessToken == null) {
             navigateToLoginActivity();
             return;
         }
-        System.out.println(accessToken);
 
-        NetworkService networkService = new NetworkService();
-        UserApi userApi = networkService.getRetrofit().create(UserApi.class);
-        userApi.getAllPizzas().enqueue(new Callback<Pizza>() {
+        UserApi userApi = new NetworkService().getRetrofit().create(UserApi.class);
+        userApi.saveUser("Bearer " + accessToken, user.getId(), modifyUser).enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<Pizza> call, Response<Pizza> response) {
-                if (!response.isSuccessful()) {
-                    if (response.code() == 451) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if (response.isSuccessful()) {
+                    String message = response.body();
+                    if (message != null) {
+                        //TODO: DIALOG + FRISSÍTÉS
+                        System.out.println("SIKERES");
+                    } else if (response.code() == 451) {
                         handleTokenRefresh(tokenUtils, userApi);
-                    } else if (response.code() == 401) {
-                        navigateToLoginActivity();
-                    } else {
-                        navigateToLoginActivity();
                     }
-                    return;
-                }
-                Gson gson = new Gson();
-                Type type = new TypeToken<List<Pizza>>(){}.getType();
-                List<Pizza> pizzas = gson.fromJson(response.body().toString(), type);
 
-                System.out.println(pizzas);
+                } else {
+                    handleResponseCode(response.code(), tokenUtils, userApi);
+                }
             }
 
             @Override
-            public void onFailure(Call<Pizza> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                System.out.println("SZAAAAAAAAAAAAAAAAAAAR");
+                System.out.println(t);
                 navigateToLoginActivity();
             }
         });
-    }*/
+    }
+
+    private void handleResponseCode(int code, TokenUtils tokenUtils, UserApi userApi) {
+        if (code == 451) {
+            handleTokenRefresh(tokenUtils, userApi);
+        } else {
+            navigateToLoginActivity();
+        }
+    }
 
     private void handleTokenRefresh(TokenUtils tokenUtils, UserApi userApi) {
         String refreshToken = tokenUtils.getRefreshToken();
@@ -154,7 +184,7 @@ public class ProfileFragment extends Fragment {
                 if (jwtResponse != null) {
                     tokenUtils.setRefreshToken(jwtResponse.getRefreshToken());
                 }
-                //saveUser();
+                saveUserInformation();
             }
 
             @Override

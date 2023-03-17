@@ -7,6 +7,8 @@
     android:background="@drawable/registerbg"
     android:fitsSystemWindows="true"
     android:screenOrientation="portrait"
+    android:cropToPadding="true"
+    android:paddingEnd="50dp"
     tools:context=".components.RegisterActivity">
 
     <androidx.cardview.widget.CardView

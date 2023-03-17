@@ -7,6 +7,8 @@
     android:background="@drawable/loginbg"
     android:fitsSystemWindows="true"
     android:screenOrientation="portrait"
+    android:cropToPadding="true"
+    android:paddingStart="50dp"
     tools:context=".components.LoginActivity">
 
     <androidx.cardview.widget.CardView

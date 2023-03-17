@@ -115,7 +115,7 @@ public class CartFragment extends Fragment {
                     });
                 } else {
                     // handle the null case
-                    System.out.println("nullgec");
+                    System.out.println("The pizza with the selected Id doesn't exists!");
                 }
             }
         }
