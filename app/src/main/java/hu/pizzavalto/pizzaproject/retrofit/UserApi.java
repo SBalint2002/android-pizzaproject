@@ -6,6 +6,7 @@ import hu.pizzavalto.pizzaproject.auth.JwtResponse;
 import hu.pizzavalto.pizzaproject.model.Pizza;
 import hu.pizzavalto.pizzaproject.auth.RefreshRequest;
 import hu.pizzavalto.pizzaproject.model.User;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -32,6 +33,6 @@ public interface UserApi {
     Call<List<Pizza>> getAllPizzas();
 
     @PUT("/user/{userId}")
-    Call<String> saveUser(@Header("Authorization") String token, @Path("userId") Long userId, @Body User user);
+    Call<ResponseBody> saveUser(@Header("Authorization") String token, @Path("userId") Long userId, @Body User user);
 
 }

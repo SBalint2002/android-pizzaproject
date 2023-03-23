@@ -31,6 +31,9 @@ public class CartFragment extends Fragment {
 
     private PizzaViewModel pizzaViewModel;
     private LinearLayout itemContainer;
+    private Button orderButton;
+    private TextView sumAllPrice;
+    private int price = 0;
 
     public CartFragment() {
         // Required empty public constructor
@@ -51,79 +54,93 @@ public class CartFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
         itemContainer = view.findViewById(R.id.itemContainer);
 
+        init(view);
+
+        getCartContent();
+
+
+        return view;
+    }
+
+    private void getCartContent() {
         MenuFragment menuFragment = new MenuFragment();
         menuFragment.setTargetFragment(CartFragment.this, 0);
 
         HashMap<Long, Integer> pizzaIds = pizzaViewModel.getPizzaIds();
 
-        TextView messageText = new TextView(getActivity());
-        if (pizzaIds.isEmpty()) {
-            messageText.setVisibility(View.VISIBLE);
-            messageText.setText("Nincs semmi a kosaradban.");
-            itemContainer.addView(messageText);
-        } else {
-            messageText.setVisibility(GONE);
-            itemContainer.removeView(messageText);
-            for (Long pizzaId: pizzaIds.keySet()) {
-                Optional<Integer> pizzaIdValue = Optional.ofNullable(pizzaIds.get(pizzaId));
-                if (pizzaIdValue.isPresent()) {
-                    final int[] count = { pizzaIdValue.get() };
-                    Pizza pizza = pizzaViewModel.getPizzas().stream().filter((x) -> Objects.equals(x.getId(), pizzaId)).findFirst().get();
+        for (Long pizzaId : pizzaIds.keySet()) {
+            Optional<Integer> pizzaIdValue = Optional.ofNullable(pizzaIds.get(pizzaId));
+            if (pizzaIdValue.isPresent()) {
+                final int[] count = {pizzaIdValue.get()};
+                Pizza pizza = pizzaViewModel.getPizzas().stream().filter((x) -> Objects.equals(x.getId(), pizzaId)).findFirst().get();
 
-                    View cartItem = LayoutInflater.from(getActivity()).inflate(R.layout.cart_item, (ViewGroup) getView(), false);
+                View cartItem = LayoutInflater.from(getActivity()).inflate(R.layout.cart_item, (ViewGroup) getView(), false);
 
-                    TextView pizzaName = cartItem.findViewById(R.id.pizzaName);
-                    pizzaName.setText(pizza.getName());
+                TextView pizzaName = cartItem.findViewById(R.id.pizzaName);
+                pizzaName.setText(pizza.getName());
 
-                    TextView itemQuantity = cartItem.findViewById(R.id.itemQuantity);
-                    if (count[0] < 2){
-                        itemQuantity.setText("");
-                    }
-                    itemQuantity.setText(String.valueOf(count[0]));
-                    itemContainer.addView(cartItem);
+                TextView itemQuantity = cartItem.findViewById(R.id.itemQuantity);
+                if (count[0] < 2) {
+                    itemQuantity.setText("");
+                }
+                itemQuantity.setText(String.valueOf(count[0]));
+                itemContainer.addView(cartItem);
 
-                    TextView sumPrice = cartItem.findViewById(R.id.sumPrice);
-                    sumPrice.setText(setPriceText(count[0], pizza.getPrice()));
+                TextView sumPrice = cartItem.findViewById(R.id.sumPrice);
+                sumPrice.setText(setPriceText(count[0], pizza.getPrice()));
+                updatePrice(price += count[0] * pizza.getPrice());
 
-                    Button minusButton = cartItem.findViewById(R.id.button_minus);
-                    Button plusButton = cartItem.findViewById(R.id.button_plus);
-                    Button deleteButton = cartItem.findViewById(R.id.deleteItem);
+                Button minusButton = cartItem.findViewById(R.id.button_minus);
+                Button plusButton = cartItem.findViewById(R.id.button_plus);
+                Button deleteButton = cartItem.findViewById(R.id.deleteItem);
 
-                    minusButton.setOnClickListener(decrease -> {
-                        if (count[0] > 1) {
-                            count[0]--;
-                            pizzaIds.put(pizzaId, count[0]);
-
-                            itemQuantity.setText(String.valueOf(count[0]));
-                            sumPrice.setText(setPriceText(count[0], pizza.getPrice()));
-                        }
-                    });
-
-                    plusButton.setOnClickListener(increase -> {
-                        count[0]++;
+                minusButton.setOnClickListener(decrease -> {
+                    if (count[0] > 1) {
+                        count[0]--;
                         pizzaIds.put(pizzaId, count[0]);
 
                         itemQuantity.setText(String.valueOf(count[0]));
                         sumPrice.setText(setPriceText(count[0], pizza.getPrice()));
-                    });
+                        updatePrice(price - pizza.getPrice());
+                    }
+                });
 
-                    deleteButton.setOnClickListener(increase -> {
-                        itemContainer.removeView(cartItem);
-                        pizzaIds.remove(pizza.getId());
-                        pizzaViewModel.setPizzaIds(pizzaIds);
-                        pizzaViewModel.getPizzas().remove(pizza);
-                    });
-                } else {
-                    // handle the null case
-                    System.out.println("The pizza with the selected Id doesn't exists!");
-                }
+                plusButton.setOnClickListener(increase -> {
+                    count[0]++;
+                    pizzaIds.put(pizzaId, count[0]);
+
+                    itemQuantity.setText(String.valueOf(count[0]));
+                    sumPrice.setText(setPriceText(count[0], pizza.getPrice()));
+                    updatePrice(price + pizza.getPrice());
+                });
+
+                deleteButton.setOnClickListener(increase -> {
+                    itemContainer.removeView(cartItem);
+                    pizzaIds.remove(pizza.getId());
+                    pizzaViewModel.setPizzaIds(pizzaIds);
+                    pizzaViewModel.getPizzas().remove(pizza);
+                    updatePrice(price - count[0] * pizza.getPrice());
+                });
+            } else {
+                // handle the null case
+                System.out.println("The pizza with the selected Id doesn't exists!");
             }
         }
-        return view;
+    }
+
+    private void init(View view) {
+        orderButton = view.findViewById(R.id.orderButton);
+        sumAllPrice = view.findViewById(R.id.sumAllPrice);
     }
 
 
-    public String setPriceText(int count, int price){
+    public String setPriceText(int count, int price) {
         return String.valueOf(count * price);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void updatePrice(int newPrice) {
+        price = newPrice;
+        sumAllPrice.setText("Össz érték: " + price + " Ft");
     }
 }

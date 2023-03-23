@@ -1,13 +1,20 @@
 package hu.pizzavalto.pizzaproject.auth;
 
+import com.google.gson.annotations.SerializedName;
+
 public class JwtResponse {
-    private String jwttoken;
+    @SerializedName("status")
     private String status;
+
+    @SerializedName("accessToken")
+    private String accessToken;
+
+    @SerializedName("refreshToken")
     private String refreshToken;
 
-    public JwtResponse(String status, String jwttoken, String refreshToken) {
+    public JwtResponse(String status, String accessToken, String refreshToken) {
         this.status = status;
-        this.jwttoken = jwttoken;
+        this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
 
@@ -19,12 +26,12 @@ public class JwtResponse {
         this.status = status;
     }
 
-    public String getJwttoken() {
-        return jwttoken;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setJwttoken(String jwttoken) {
-        this.jwttoken = jwttoken;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getRefreshToken() {

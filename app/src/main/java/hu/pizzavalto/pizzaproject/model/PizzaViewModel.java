@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PizzaViewModel extends ViewModel {
-    private HashMap<Long, Integer> pizzaIds = new HashMap<Long, Integer>();
+    private HashMap<Long, Integer> pizzaIds = new HashMap<>();
     private List<Pizza> pizzas = new ArrayList<>();
 
     public HashMap<Long, Integer> getPizzaIds() {
@@ -28,7 +28,7 @@ public class PizzaViewModel extends ViewModel {
 
     public void addPizza(Pizza pizza) {
         if (pizzaIds.containsKey(pizza.getId())) {
-            updatePizzaQuantity(pizza, pizzaIds.get(pizza.getId())+1);
+            updatePizzaQuantity(pizza, pizzaIds.get(pizza.getId()) + 1);
         } else {
             pizzaIds.put(pizza.getId(), 1);
             pizzas.add(pizza);
@@ -40,6 +40,4 @@ public class PizzaViewModel extends ViewModel {
             pizzaIds.put(pizza.getId(), newQuantity);
         }
     }
-
-
 }

@@ -4,11 +4,6 @@
     android:layout_height="50dp"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorlightgray2" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

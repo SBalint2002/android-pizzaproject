@@ -21,6 +21,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
@@ -41,6 +42,7 @@ public class MainPage extends AppCompatActivity {
     private DrawerLayout mainPageLayout;
     private MenuItem logoutMenuItem;
     private NavController navController;
+    private RoundedImageView profilePic;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -53,8 +55,17 @@ public class MainPage extends AppCompatActivity {
         getUserInformation();
 
         shoppingCartButton.setOnClickListener(view -> {
-            //TODO: ÁTNAVIGÁLÁS
-            //navController.navigate(R.id.menuCart);
+            /*navController.navigate(R.id.menuCart);
+            if (mainPageLayout.isDrawerOpen(GravityCompat.START)) {
+                mainPageLayout.closeDrawer(GravityCompat.START);
+            }*/
+        });
+
+        profilePic.setOnClickListener(view -> {
+            /*navController.navigate(R.id.menuProfile);
+            if (mainPageLayout.isDrawerOpen(GravityCompat.START)) {
+                mainPageLayout.closeDrawer(GravityCompat.START);
+            }*/
         });
 
         logoutMenuItem.setOnMenuItemClickListener(menuItem -> {
@@ -78,6 +89,7 @@ public class MainPage extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         profileNameTextView = headerView.findViewById(R.id.ProfileName);
         profileRoleTextView = headerView.findViewById(R.id.ProfileRole);
+        profilePic = headerView.findViewById(R.id.imageProfile);
 
 
         Menu menu = navigationView.getMenu();
@@ -90,6 +102,7 @@ public class MainPage extends AppCompatActivity {
         //Display menu from the side
         mainPageLayout = findViewById(R.id.mainPageLayout);
         findViewById(R.id.imageMenu).setOnClickListener(view -> mainPageLayout.openDrawer(GravityCompat.START));
+
 
         navController = Navigation.findNavController(this, R.id.navHostFragment);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -123,9 +136,8 @@ public class MainPage extends AppCompatActivity {
                     User user = response.body();
                     if (user != null) {
                         profileNameTextView.setText(user.getFirst_name());
-                        profileRoleTextView.setText(user.isAdmin() ? "Admin" : "Felhasználó");
-                        profileRoleTextView.setTextColor(Color.parseColor(user.isAdmin() ? "#FF0000" : "#00FF00"));
-                        System.out.println(user);
+                        profileRoleTextView.setText(user.getRole().equals("ADMIN") ? "Admin" : "Felhasználó");
+                        profileRoleTextView.setTextColor(Color.parseColor(user.getRole().equals("ADMIN") ? "#FF0000" : "#00FF00"));
                         MainPage.this.user = user;
                     } else {
                         navigateToLoginActivity();
@@ -164,8 +176,8 @@ public class MainPage extends AppCompatActivity {
             public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
                 if (response.isSuccessful()) {
                     JwtResponse jwtResponse = response.body();
-                    if (jwtResponse != null && jwtResponse.getJwttoken() != null) {
-                        tokenUtils.saveAccessToken(jwtResponse.getJwttoken());
+                    if (jwtResponse != null && jwtResponse.getAccessToken() != null) {
+                        tokenUtils.saveAccessToken(jwtResponse.getAccessToken());
                         tokenUtils.setRefreshToken(jwtResponse.getRefreshToken());
                         getUserInformation();
                     } else {

@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                                 JwtResponse jwtResponse = response.body();
                                 String accessToken = null;
                                 if (jwtResponse != null) {
-                                    accessToken = jwtResponse.getJwttoken();
+                                    accessToken = jwtResponse.getAccessToken();
                                 }
                                 String refreshToken = null;
                                 if (jwtResponse != null) {

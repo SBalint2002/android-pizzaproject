@@ -1,5 +1,6 @@
 package hu.pizzavalto.pizzaproject.fragments;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +12,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -22,6 +25,7 @@ import hu.pizzavalto.pizzaproject.model.User;
 import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
 import hu.pizzavalto.pizzaproject.retrofit.UserApi;
 import hu.pizzavalto.pizzaproject.sharedpreferences.TokenUtils;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,7 +74,7 @@ public class ProfileFragment extends Fragment {
                     profileLastName.getText().toString(),
                     profileEmail.getText().toString(),
                     password,
-                    user.isAdmin());
+                    user.getRole());
             saveUserInformation();
         });
 
@@ -128,27 +132,35 @@ public class ProfileFragment extends Fragment {
         }
 
         UserApi userApi = new NetworkService().getRetrofit().create(UserApi.class);
-        userApi.saveUser("Bearer " + accessToken, user.getId(), modifyUser).enqueue(new Callback<String>() {
+        userApi.saveUser("Bearer " + accessToken, user.getId(), modifyUser).enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+            public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    String message = response.body();
-                    if (message != null) {
-                        //TODO: DIALOG + FRISSÍTÉS
-                        System.out.println("SIKERES");
-                    } else if (response.code() == 451) {
-                        handleTokenRefresh(tokenUtils, userApi);
-                    }
+                    Dialog orderDialog = new Dialog(getActivity());
+                    View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.logout_dialog, (ViewGroup) getView(), false);
+                    orderDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    orderDialog.setContentView(dialogView);
 
+                    Window window = orderDialog.getWindow();
+                    WindowManager.LayoutParams params = window.getAttributes();
+                    params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+                    window.setAttributes(params);
+
+                    Button okButton = dialogView.findViewById(R.id.btn_ok);
+
+                    okButton.setOnClickListener(add -> {
+                        navigateToLoginActivity();
+                        orderDialog.dismiss();
+                    });
+
+                    orderDialog.show();
                 } else {
                     handleResponseCode(response.code(), tokenUtils, userApi);
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                System.out.println("SZAAAAAAAAAAAAAAAAAAAR");
-                System.out.println(t);
+            public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
                 navigateToLoginActivity();
             }
         });
@@ -179,7 +191,7 @@ public class ProfileFragment extends Fragment {
                 }
                 JwtResponse jwtResponse = response.body();
                 if (jwtResponse != null) {
-                    tokenUtils.saveAccessToken(jwtResponse.getJwttoken());
+                    tokenUtils.saveAccessToken(jwtResponse.getAccessToken());
                 }
                 if (jwtResponse != null) {
                     tokenUtils.setRefreshToken(jwtResponse.getRefreshToken());

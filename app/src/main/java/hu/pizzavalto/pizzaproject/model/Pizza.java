@@ -9,17 +9,6 @@ public class Pizza {
     private String description;
     private String picture;
 
-    public Pizza() {
-
-    }
-
-    public Pizza(String name, int price, String description, String picture) {
-        this.name = name;
-        this.price = price;
-        this.description = description;
-        this.picture = picture;
-    }
-
     public Pizza(Long id, String name, int price, String description, String picture) {
         this.id = id;
         this.name = name;

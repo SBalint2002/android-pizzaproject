@@ -123,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 JwtResponse jwtResponse = response.body();
                                 String jwtToken = null;
                                 if (jwtResponse != null) {
-                                    jwtToken = jwtResponse.getJwttoken();
+                                    jwtToken = jwtResponse.getAccessToken();
                                 }
                                 String refreshToken = null;
                                 if (jwtResponse != null) {

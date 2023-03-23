@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <LinearLayout
-        android:id="@+id/itemContainer"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/messageText"
+        <LinearLayout
+            android:id="@+id/itemContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:orientation="vertical"/>
 
-    </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+    <TextView
+        android:id="@+id/sumAllPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Össz érték:"
+        android:textSize="20sp"
+        android:textColor="@color/black"/>
+
+    <Button
+        android:id="@+id/orderButton"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:text="Megrendelés"/>
+
+</LinearLayout>
