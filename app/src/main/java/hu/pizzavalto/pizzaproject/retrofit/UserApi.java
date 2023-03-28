@@ -3,6 +3,7 @@ package hu.pizzavalto.pizzaproject.retrofit;
 import java.util.List;
 
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
+import hu.pizzavalto.pizzaproject.model.OrderDto;
 import hu.pizzavalto.pizzaproject.model.Pizza;
 import hu.pizzavalto.pizzaproject.auth.RefreshRequest;
 import hu.pizzavalto.pizzaproject.model.User;
@@ -35,4 +36,6 @@ public interface UserApi {
     @PUT("/user/{userId}")
     Call<ResponseBody> saveUser(@Header("Authorization") String token, @Path("userId") Long userId, @Body User user);
 
+    @POST("/order/add-order")
+    Call<ResponseBody>  addOrder(@Header("Authorization") String token, @Body OrderDto orderDto);
 }

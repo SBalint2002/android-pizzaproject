@@ -3,6 +3,8 @@ package hu.pizzavalto.pizzaproject.fragments;
 import static android.view.View.GONE;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,12 +17,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.Optional;
 
 import hu.pizzavalto.pizzaproject.R;
+import hu.pizzavalto.pizzaproject.components.LoginActivity;
+import hu.pizzavalto.pizzaproject.components.MainPage;
+import hu.pizzavalto.pizzaproject.components.OrderActivity;
 import hu.pizzavalto.pizzaproject.model.Pizza;
 import hu.pizzavalto.pizzaproject.model.PizzaViewModel;
 
@@ -45,8 +51,6 @@ public class CartFragment extends Fragment {
         pizzaViewModel = new ViewModelProvider(requireActivity()).get(PizzaViewModel.class);
     }
 
-
-    @SuppressLint("SetTextI18n")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,6 +61,17 @@ public class CartFragment extends Fragment {
         init(view);
 
         getCartContent();
+
+        orderButton.setOnClickListener(order -> {
+            HashMap<Long, Integer> pizzaIds = pizzaViewModel.getPizzaIds();
+            if (pizzaIds != null && !pizzaIds.isEmpty()) {
+                Intent intent = new Intent(this.getActivity(), OrderActivity.class);
+                intent.putExtra("pizzaIds", pizzaIds);
+                startActivity(intent);
+            }else{
+                Toast.makeText(getContext(), "A kosár üres!", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         return view;

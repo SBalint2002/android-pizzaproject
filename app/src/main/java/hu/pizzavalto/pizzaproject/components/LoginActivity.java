@@ -29,7 +29,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private TextView register;
-    TextInputEditText emailText, passwordText;
+    private TextInputEditText emailText, passwordText;
     private Button loginButton;
 
     @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n"})

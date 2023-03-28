@@ -43,6 +43,7 @@ public class MainPage extends AppCompatActivity {
     private MenuItem logoutMenuItem;
     private NavController navController;
     private RoundedImageView profilePic;
+    public static MainPage instance;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -55,10 +56,7 @@ public class MainPage extends AppCompatActivity {
         getUserInformation();
 
         shoppingCartButton.setOnClickListener(view -> {
-            /*navController.navigate(R.id.menuCart);
-            if (mainPageLayout.isDrawerOpen(GravityCompat.START)) {
-                mainPageLayout.closeDrawer(GravityCompat.START);
-            }*/
+            //TODO: navigálás
         });
 
         profilePic.setOnClickListener(view -> {
@@ -120,7 +118,7 @@ public class MainPage extends AppCompatActivity {
                 .show();
     }
 
-    public void getUserInformation() {
+    private void getUserInformation() {
         TokenUtils tokenUtils = new TokenUtils(MainPage.this);
         String accessToken = tokenUtils.getAccessToken();
         if (accessToken == null) {

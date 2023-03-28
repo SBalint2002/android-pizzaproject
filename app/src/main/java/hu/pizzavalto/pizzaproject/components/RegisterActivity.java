@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private MaterialButton registerButton;
     private TextView login;
-    TextInputEditText lastnameText, firstnameText, emailText, passwordText;
+    private TextInputEditText lastnameText, firstnameText, emailText, passwordText;
 
     @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n"})
     @Override

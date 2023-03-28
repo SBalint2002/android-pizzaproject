@@ -16,32 +16,33 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".OrderActivity"
-            android:exported="false" />
+            android:name=".components.OrderActivity"
+            android:exported="true" />
         <activity
             android:name=".components.RegisterActivity"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.LoginActivity" />
             </intent-filter>
         </activity>
         <activity
             android:name=".components.LoginActivity"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.RegisterActivity" />
             </intent-filter>
         </activity>
         <activity
             android:name=".components.MainPage"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.RegisterActivity" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".components.LoadingActivity"
-            android:exported="true">
+            android:name=".components.SplashScreen"
+            android:exported="true"
+            android:theme="@style/SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

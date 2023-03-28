@@ -40,4 +40,9 @@ public class PizzaViewModel extends ViewModel {
             pizzaIds.put(pizza.getId(), newQuantity);
         }
     }
+
+    public void clear() {
+        pizzaIds = new HashMap<>();
+        pizzas = new ArrayList<>();
+    }
 }
