@@ -88,70 +88,72 @@ public class MenuFragment extends Fragment {
                 pizzaViewModel.setPizzas(pizzas);
 
                 for (Pizza pizza : pizzas) {
-                    View pizzaView = LayoutInflater.from(getActivity()).inflate(R.layout.item_pizza, (ViewGroup) getView(), false);
+                    if (pizza.isAvailable()) {
+                        View pizzaView = LayoutInflater.from(getActivity()).inflate(R.layout.item_pizza, (ViewGroup) getView(), false);
 
-                    ImageView imageView = pizzaView.findViewById(R.id.image_view);
-                    Picasso.get().load(pizza.getPicture()).into(imageView);
+                        ImageView imageView = pizzaView.findViewById(R.id.image_view);
+                        Picasso.get().load(pizza.getPicture()).into(imageView);
 
-                    TextView nameTextView = pizzaView.findViewById(R.id.name_text_view);
-                    nameTextView.setText(pizza.getName());
+                        TextView nameTextView = pizzaView.findViewById(R.id.name_text_view);
+                        nameTextView.setText(pizza.getName());
 
-                    TextView priceTextView = pizzaView.findViewById(R.id.price_text_view);
-                    String priceString = getString(R.string.pizza_price, pizza.getPrice());
-                    priceTextView.setText(priceString);
+                        TextView priceTextView = pizzaView.findViewById(R.id.price_text_view);
+                        String priceString = getString(R.string.pizza_price, pizza.getPrice());
+                        priceTextView.setText(priceString);
 
-                    TextView descriptionTextView = pizzaView.findViewById(R.id.description_text_view);
-                    descriptionTextView.setText(pizza.getDescription());
+                        TextView descriptionTextView = pizzaView.findViewById(R.id.description_text_view);
+                        descriptionTextView.setText(pizza.getDescription());
 
-                    Button orderButton = pizzaView.findViewById(R.id.order_button);
+                        Button orderButton = pizzaView.findViewById(R.id.order_button);
 
-                    orderButton.setOnClickListener(order -> {
-                        Dialog orderDialog = new Dialog(getActivity());
-                        View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.order_dialog, (ViewGroup) getView(), false);
-                        orderDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        orderDialog.setContentView(dialogView);
+                        orderButton.setOnClickListener(order -> {
+                            Dialog orderDialog = new Dialog(getActivity());
+                            View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.order_dialog, (ViewGroup) getView(), false);
+                            orderDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            orderDialog.setContentView(dialogView);
 
-                        Window window = orderDialog.getWindow();
-                        WindowManager.LayoutParams params = window.getAttributes();
-                        params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
-                        window.setAttributes(params);
+                            Window window = orderDialog.getWindow();
+                            WindowManager.LayoutParams params = window.getAttributes();
+                            params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+                            window.setAttributes(params);
 
-                        numberTextView = dialogView.findViewById(R.id.text_number);
-                        Button minusButton = dialogView.findViewById(R.id.button_minus);
-                        Button plusButton = dialogView.findViewById(R.id.button_plus);
-                        Button addButton = dialogView.findViewById(R.id.btn_yes);
-                        Button closeButton = dialogView.findViewById(R.id.btn_no);
+                            numberTextView = dialogView.findViewById(R.id.text_number);
+                            Button minusButton = dialogView.findViewById(R.id.button_minus);
+                            Button plusButton = dialogView.findViewById(R.id.button_plus);
+                            Button addButton = dialogView.findViewById(R.id.btn_yes);
+                            Button closeButton = dialogView.findViewById(R.id.btn_no);
 
-                        minusButton.setOnClickListener(decrease -> {
-                            number--;
-                            if (number < 1) {
+                            minusButton.setOnClickListener(decrease -> {
+                                number--;
+                                if (number < 1) {
+                                    number = 1;
+                                }
+                                numberTextView.setText(String.valueOf(number));
+                            });
+
+                            plusButton.setOnClickListener(increase -> {
+                                number++;
+                                numberTextView.setText(String.valueOf(number));
+                            });
+
+                            addButton.setOnClickListener(add -> {
+                                for (int i = 0; i < number; i++) {
+                                    pizzaViewModel.addPizza(pizza);
+                                }
                                 number = 1;
-                            }
-                            numberTextView.setText(String.valueOf(number));
+                                orderDialog.dismiss();
+                            });
+
+                            closeButton.setOnClickListener(close -> {
+                                number = 1;
+                                orderDialog.dismiss();
+                            });
+
+                            orderDialog.show();
                         });
 
-                        plusButton.setOnClickListener(increase -> {
-                            number++;
-                            numberTextView.setText(String.valueOf(number));
-                        });
-
-                        addButton.setOnClickListener(add -> {
-                            for (int i = 0; i < number; i++) {
-                                pizzaViewModel.addPizza(pizza);
-                            }
-                            number = 1;
-                            orderDialog.dismiss();
-                        });
-
-                        closeButton.setOnClickListener(close -> {
-                            number = 1;
-                            orderDialog.dismiss();
-                        });
-
-                        orderDialog.show();
-                    });
-
-                    pizzasContainer.addView(pizzaView);
+                        pizzasContainer.addView(pizzaView);
+                    }
                 }
             }
 

@@ -8,13 +8,15 @@ public class Pizza {
     private int price;
     private String description;
     private String picture;
+    private boolean available;
 
-    public Pizza(Long id, String name, int price, String description, String picture) {
+    public Pizza(Long id, String name, int price, String description, String picture, boolean available) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.picture = picture;
+        this.available = available;
     }
 
     public Long getId() {
@@ -57,7 +59,14 @@ public class Pizza {
         this.picture = picture;
     }
 
-    @NonNull
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
     @Override
     public String toString() {
         return "Pizza{" +
@@ -66,6 +75,7 @@ public class Pizza {
                 ", price=" + price +
                 ", description='" + description + '\'' +
                 ", picture='" + picture + '\'' +
+                ", available=" + available +
                 '}';
     }
 }
