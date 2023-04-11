@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import hu.pizzavalto.pizzaproject.R;
@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private MaterialButton registerButton;
+    private Button registerButton;
     private TextView login;
     private TextInputEditText lastnameText, firstnameText, emailText, passwordText;
 
@@ -49,7 +49,6 @@ public class RegisterActivity extends AppCompatActivity {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             finish();
         });
-
 
         registerButton.setOnClickListener(view -> {
             String lastname = String.valueOf(lastnameText.getText());

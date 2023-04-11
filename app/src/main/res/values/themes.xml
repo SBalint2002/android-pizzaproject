@@ -1,6 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Theme.PizzaProjectandroid" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.PizzaProjectandroid" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Status navigation -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">false</item>
@@ -15,5 +15,9 @@
         <item name="android:windowBackground">@drawable/background_splashscreen</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+    <style name="AppButtonStyle">
+        <item name="background">@drawable/oval_button</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 </resources>

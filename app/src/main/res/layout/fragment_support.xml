@@ -4,43 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SupportFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/gray">
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorlightgray2"/>
+        android:layout_height="10dp"
+        android:background="@drawable/gradient_background"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorlightgray"
-        android:gravity="left|center"
-        android:paddingStart="20dp"
+        android:gravity="center"
         android:text="@string/doyouhavequestion"
-        android:textSize="20sp"
-        tools:ignore="RtlHardcoded,RtlSymmetry" />
+        android:textSize="20sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/gradient_background"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
-        android:gravity="left|center"
-        android:text="@string/dont"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="Keresse bátran munkatársainkat bármely telefonszámunkon, esetleg e-mail címünkön!"
         android:textAlignment="center"
-        android:textSize="20sp"
-        tools:ignore="RtlHardcoded" />
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorlightgray"
-        android:gravity="left|center"
-        android:paddingStart="20dp"
+        android:gravity="center"
         android:text="@string/phonecontact"
-        android:textSize="20sp"
-        tools:ignore="RtlHardcoded,RtlSymmetry" />
+        android:textSize="20sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/gradient_background"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -53,21 +61,17 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:gravity="left|center"
-            android:paddingStart="20dp"
+            android:gravity="center"
             android:text="@string/telefonszam1"
-            android:textSize="20sp"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            android:textSize="20sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:gravity="left|center"
-            android:paddingStart="20dp"
+            android:gravity="center"
             android:text="@string/telefonszam2"
-            android:textSize="20sp"
-            tools:ignore="RtlHardcoded,RtlSymmetry" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
@@ -75,11 +79,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorlightgray"
-        android:gravity="left|center"
-        android:paddingStart="20dp"
+        android:gravity="center"
         android:text="@string/emailcontact"
-        android:textSize="20sp"
-        tools:ignore="RtlHardcoded,RtlSymmetry" />
+        android:textSize="20sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/gradient_background"/>
 
     <TextView
         android:layout_width="match_parent"

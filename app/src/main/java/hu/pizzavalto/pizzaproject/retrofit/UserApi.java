@@ -18,17 +18,17 @@ import retrofit2.http.Path;
 
 public interface UserApi {
 
-    @GET("/user/data")
-    Call<User> getUserInformation(@Header("Authorization") String token);
-
-    @POST("/user/register")
+    @POST("/auth/register")
     Call<JwtResponse> registerUser(@Body User user);
 
-    @POST("/user/login")
+    @POST("/auth/login")
     Call<JwtResponse> loginUser(@Body User user);
 
-    @POST("/user/refresh")
+    @POST("/auth/refresh")
     Call<JwtResponse> refreshToken(@Body RefreshRequest refreshRequest);
+
+    @GET("/user/data")
+    Call<User> getUserInformation(@Header("Authorization") String token);
 
     @GET("/pizza/get-all")
     Call<List<Pizza>> getAllPizzas();

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -19,10 +21,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
+import hu.pizzavalto.pizzaproject.fragments.CartFragment;
 import hu.pizzavalto.pizzaproject.model.OrderDto;
+import hu.pizzavalto.pizzaproject.model.Pizza;
 import hu.pizzavalto.pizzaproject.model.PizzaViewModel;
 import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
 import hu.pizzavalto.pizzaproject.retrofit.UserApi;
@@ -37,6 +42,7 @@ public class OrderActivity extends AppCompatActivity {
     private PizzaViewModel pizzaViewModel;
     private TextInputEditText address_input, phone_input;
     private Dialog orderAddedDialog;
+    private TextView fullPrice;
 
     @Override
     protected void onStop() {
@@ -46,6 +52,7 @@ public class OrderActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +60,11 @@ public class OrderActivity extends AppCompatActivity {
 
         init();
 
-        backButton.setOnClickListener(view -> {
-            finish();
-        });
+        backButton.setOnClickListener(view -> finish());
 
-        orderButton.setOnClickListener(view -> {
-            order();
-        });
+        orderButton.setOnClickListener(view -> order());
 
+        fullPrice.setText("Fizetendő összeg: " + getIntent().getIntExtra("price", 0) + " Ft");
     }
 
     private void order(){
@@ -79,8 +83,8 @@ public class OrderActivity extends AppCompatActivity {
             }
         }
 
-        String location = address_input.getText().toString();
-        String phoneNumber = phone_input.getText().toString();
+        String location = Objects.requireNonNull(address_input.getText()).toString();
+        String phoneNumber = Objects.requireNonNull(phone_input.getText()).toString();
         OrderDto orderDto = new OrderDto(location, phoneNumber, pizzaIdList);
         UserApi userApi = new NetworkService().getRetrofit().create(UserApi.class);
         System.out.println("OrderDto{location='" + orderDto.getLocation() + "', phoneNumber='" + orderDto.getPhoneNumber() + "', pizzaIds=" + orderDto.getPizzaIds().toString() + "}");
@@ -90,7 +94,7 @@ public class OrderActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 
                     orderAddedDialog = new Dialog(OrderActivity.this);
-                    View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.successful_order, null);
+                    View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.successful_order, findViewById(android.R.id.content), false);
                     orderAddedDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     orderAddedDialog.setContentView(dialogView);
 
@@ -104,9 +108,8 @@ public class OrderActivity extends AppCompatActivity {
                     okButton.setOnClickListener(add -> {
                         pizzaViewModel.clear();
                         orderAddedDialog.dismiss();
-                        if(MainPage.instance != null) {
-                            MainPage.instance.finish();
-                        }
+                        MainPage mainPage = (MainPage) add.getContext();
+                        mainPage.finish();
                         Intent intent = new Intent(OrderActivity.this, MainPage.class);
                         startActivity(intent);
                         finish();
@@ -121,7 +124,6 @@ public class OrderActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<ResponseBody> call, @NonNull Throwable t) {
-                System.out.println(t);
                 finish();
             }
         });
@@ -182,6 +184,8 @@ public class OrderActivity extends AppCompatActivity {
         phone_input = findViewById(R.id.phone_input);
 
         pizzaViewModel = new ViewModelProvider(this).get(PizzaViewModel.class);
+
+        fullPrice = findViewById(R.id.fullPrice);
 
     }
 }

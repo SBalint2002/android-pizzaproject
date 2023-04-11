@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,7 +20,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.makeramen.roundedimageview.RoundedImageView;
 
 import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
@@ -38,12 +36,9 @@ public class MainPage extends AppCompatActivity {
     private TextView profileRoleTextView;
     private TextView textTitle;
     private User user;
-    private ImageButton shoppingCartButton;
     private DrawerLayout mainPageLayout;
     private MenuItem logoutMenuItem;
     private NavController navController;
-    private RoundedImageView profilePic;
-    public static MainPage instance;
 
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
@@ -54,17 +49,6 @@ public class MainPage extends AppCompatActivity {
 
         init();
         getUserInformation();
-
-        shoppingCartButton.setOnClickListener(view -> {
-            //TODO: navigálás
-        });
-
-        profilePic.setOnClickListener(view -> {
-            /*navController.navigate(R.id.menuProfile);
-            if (mainPageLayout.isDrawerOpen(GravityCompat.START)) {
-                mainPageLayout.closeDrawer(GravityCompat.START);
-            }*/
-        });
 
         logoutMenuItem.setOnMenuItemClickListener(menuItem -> {
             showLogoutConfirmationDialog();
@@ -87,13 +71,10 @@ public class MainPage extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         profileNameTextView = headerView.findViewById(R.id.ProfileName);
         profileRoleTextView = headerView.findViewById(R.id.ProfileRole);
-        profilePic = headerView.findViewById(R.id.imageProfile);
 
 
         Menu menu = navigationView.getMenu();
         logoutMenuItem = menu.findItem(R.id.menuLogout);
-
-        shoppingCartButton = findViewById(R.id.shoppingCartButton);
 
         textTitle = findViewById(R.id.textTitle);
 
@@ -134,7 +115,7 @@ public class MainPage extends AppCompatActivity {
                     User user = response.body();
                     if (user != null) {
                         profileNameTextView.setText(user.getFirst_name());
-                        profileRoleTextView.setText(user.getRole().equals("ADMIN") ? "Admin" : "Felhasználó");
+                        profileRoleTextView.setText(user.getRole().equals("ADMIN") ? "Adminisztrátor" : "Felhasználó");
                         profileRoleTextView.setTextColor(Color.parseColor(user.getRole().equals("ADMIN") ? "#FF0000" : "#00FF00"));
                         MainPage.this.user = user;
                     } else {

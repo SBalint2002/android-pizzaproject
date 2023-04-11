@@ -45,4 +45,6 @@
     <string name="one">1</string>
     <string name="delete">Törlés</string>
     <string name="pizza_name">Pizza neve</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -27,13 +27,14 @@
 
     <Button
         android:id="@+id/btn_ok"
+        style="?android:attr/buttonBarButtonStyle"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="Újraindítás"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimaryText"
         android:textStyle="bold" />
 
 </LinearLayout>

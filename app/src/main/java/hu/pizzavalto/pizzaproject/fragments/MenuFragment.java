@@ -2,10 +2,14 @@ package hu.pizzavalto.pizzaproject.fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -22,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.components.LoginActivity;
@@ -38,7 +43,7 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class MenuFragment extends Fragment {
-    private LinearLayout pizzasContainer;
+    private LinearLayout pizzasContainer, pizzas2Container;
     private int number = 1;
     private TextView numberTextView;
     private List<Pizza> pizzas = new ArrayList<>();
@@ -53,6 +58,7 @@ public class MenuFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
         pizzasContainer = view.findViewById(R.id.pizzasContainer);
+        pizzas2Container = view.findViewById(R.id.pizzas2Container);
         pizzaViewModel = new ViewModelProvider(requireActivity()).get(PizzaViewModel.class);
         getAllPizzas();
 
@@ -87,7 +93,10 @@ public class MenuFragment extends Fragment {
                 pizzas = response.body();
                 pizzaViewModel.setPizzas(pizzas);
 
-                for (Pizza pizza : pizzas) {
+                int nextindex = 0;
+
+                for (int i = 0; i < pizzas.size(); i++) {
+                    Pizza pizza = pizzas.get(i);
                     if (pizza.isAvailable()) {
                         View pizzaView = LayoutInflater.from(getActivity()).inflate(R.layout.item_pizza, (ViewGroup) getView(), false);
 
@@ -101,10 +110,36 @@ public class MenuFragment extends Fragment {
                         String priceString = getString(R.string.pizza_price, pizza.getPrice());
                         priceTextView.setText(priceString);
 
-                        TextView descriptionTextView = pizzaView.findViewById(R.id.description_text_view);
-                        descriptionTextView.setText(pizza.getDescription());
-
                         Button orderButton = pizzaView.findViewById(R.id.order_button);
+                        Button detailsButton = pizzaView.findViewById(R.id.details_button);
+
+                        detailsButton.setOnClickListener(details -> {
+                            Dialog dialog = new Dialog(getActivity());
+                            dialog.setContentView(R.layout.pizza_details_dialog);
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+
+                            Window window = dialog.getWindow();
+                            WindowManager.LayoutParams params = window.getAttributes();
+                            params.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.9);
+
+                            ImageView pizzaImageView = dialog.findViewById(R.id.pizza_image_view);
+                            Picasso.get().load(pizza.getPicture()).into(pizzaImageView);
+
+                            TextView pizzaNameTextView = dialog.findViewById(R.id.pizza_name_text_view);
+                            pizzaNameTextView.setText(pizza.getName());
+                            pizzaNameTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryText));
+
+                            TextView descriptionTextView = dialog.findViewById(R.id.pizza_description_text_view);
+                            descriptionTextView.setText(pizza.getDescription());
+                            descriptionTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorPrimaryText));
+
+                            Button closeButton = dialog.findViewById(R.id.close_button);
+                            closeButton.setOnClickListener(view -> dialog.dismiss());
+
+                            dialog.show();
+                        });
 
                         orderButton.setOnClickListener(order -> {
                             Dialog orderDialog = new Dialog(getActivity());
@@ -137,7 +172,7 @@ public class MenuFragment extends Fragment {
                             });
 
                             addButton.setOnClickListener(add -> {
-                                for (int i = 0; i < number; i++) {
+                                for (int j = 0; j < number; j++) {
                                     pizzaViewModel.addPizza(pizza);
                                 }
                                 number = 1;
@@ -152,7 +187,12 @@ public class MenuFragment extends Fragment {
                             orderDialog.show();
                         });
 
-                        pizzasContainer.addView(pizzaView);
+                        nextindex++;
+                        if (nextindex % 2 != 0){
+                            pizzasContainer.addView(pizzaView);
+                        } else {
+                            pizzas2Container.addView(pizzaView);
+                        }
                     }
                 }
             }

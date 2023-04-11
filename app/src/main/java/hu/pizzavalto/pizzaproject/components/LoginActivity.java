@@ -35,9 +35,9 @@ public class LoginActivity extends AppCompatActivity {
     @SuppressLint({"SourceLockedOrientationActivity", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         init();

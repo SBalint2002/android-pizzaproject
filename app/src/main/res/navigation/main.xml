@@ -30,9 +30,4 @@
         android:name="hu.pizzavalto.pizzaproject.fragments.AboutUsFragment"
         android:label="Rólunk"
         tools:layout="@layout/fragment_about_us" />
-    <fragment
-        android:id="@+id/menuSettings"
-        android:name="hu.pizzavalto.pizzaproject.fragments.SettingsFragment"
-        android:label="Beállítások"
-        tools:layout="@layout/fragment_settings" />
 </navigation>

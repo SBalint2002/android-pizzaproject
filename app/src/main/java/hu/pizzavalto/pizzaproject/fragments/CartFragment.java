@@ -1,9 +1,9 @@
 package hu.pizzavalto.pizzaproject.fragments;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -38,11 +38,15 @@ public class CartFragment extends Fragment {
     private PizzaViewModel pizzaViewModel;
     private LinearLayout itemContainer;
     private Button orderButton;
-    private TextView sumAllPrice;
+    private TextView sumAllPrice, emptyCart;
     private int price = 0;
 
     public CartFragment() {
         // Required empty public constructor
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     @Override
@@ -67,6 +71,7 @@ public class CartFragment extends Fragment {
             if (pizzaIds != null && !pizzaIds.isEmpty()) {
                 Intent intent = new Intent(this.getActivity(), OrderActivity.class);
                 intent.putExtra("pizzaIds", pizzaIds);
+                intent.putExtra("price", getPrice());
                 startActivity(intent);
             }else{
                 Toast.makeText(getContext(), "A kosár üres!", Toast.LENGTH_SHORT).show();
@@ -82,6 +87,12 @@ public class CartFragment extends Fragment {
         menuFragment.setTargetFragment(CartFragment.this, 0);
 
         HashMap<Long, Integer> pizzaIds = pizzaViewModel.getPizzaIds();
+
+        if (pizzaIds.isEmpty()){
+            emptyCart.setVisibility(VISIBLE);
+        }else {
+            emptyCart.setVisibility(GONE);
+        }
 
         for (Long pizzaId : pizzaIds.keySet()) {
             Optional<Integer> pizzaIdValue = Optional.ofNullable(pizzaIds.get(pizzaId));
@@ -135,6 +146,9 @@ public class CartFragment extends Fragment {
                     pizzaViewModel.setPizzaIds(pizzaIds);
                     pizzaViewModel.getPizzas().remove(pizza);
                     updatePrice(price - count[0] * pizza.getPrice());
+                    if (pizzaIds.isEmpty()){
+                        emptyCart.setVisibility(VISIBLE);
+                    }
                 });
             } else {
                 // handle the null case
@@ -146,6 +160,7 @@ public class CartFragment extends Fragment {
     private void init(View view) {
         orderButton = view.findViewById(R.id.orderButton);
         sumAllPrice = view.findViewById(R.id.sumAllPrice);
+        emptyCart = view.findViewById(R.id.emptyCart);
     }
 
 
@@ -156,6 +171,6 @@ public class CartFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void updatePrice(int newPrice) {
         price = newPrice;
-        sumAllPrice.setText("Össz érték: " + price + " Ft");
+        sumAllPrice.setText("Fizetendő összeg: " + price + " Ft");
     }
 }
