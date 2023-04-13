@@ -16,6 +16,12 @@
         android:id="@+id/menuCart"
         android:icon="@drawable/baseline_shopping_cart_24"
         android:title="@string/shoppingCart" />
+
+    <item
+        android:id="@+id/menuOrders"
+        android:icon="@drawable/baseline_bookmark_24"
+        android:title="@string/orders" />
+
     <item android:title="@string/others">
 
         <menu>

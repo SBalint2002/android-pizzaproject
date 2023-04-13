@@ -8,14 +8,6 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/shadow"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@drawable/gradient_background"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/dataBox"
         android:layout_width="match_parent"
@@ -27,7 +19,7 @@
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/shadow">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/emptyCart"

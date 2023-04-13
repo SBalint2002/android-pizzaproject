@@ -22,7 +22,7 @@ import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
 import hu.pizzavalto.pizzaproject.model.User;
 import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
-import hu.pizzavalto.pizzaproject.retrofit.UserApi;
+import hu.pizzavalto.pizzaproject.retrofit.ApiService;
 import hu.pizzavalto.pizzaproject.sharedpreferences.TokenUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -97,8 +97,8 @@ public class RegisterActivity extends AppCompatActivity {
             user.setPassword(password);
 
             //Api request-ek kezelésére
-            UserApi userApi = new NetworkService().getRetrofit().create(UserApi.class);
-            userApi.registerUser(user)
+            ApiService apiService = new NetworkService().getRetrofit().create(ApiService.class);
+            apiService.registerUser(user)
                     .enqueue(new Callback<JwtResponse>() {
                         @Override
                         public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {

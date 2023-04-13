@@ -9,7 +9,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
@@ -26,14 +25,13 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.components.LoginActivity;
 import hu.pizzavalto.pizzaproject.model.Pizza;
 import hu.pizzavalto.pizzaproject.model.PizzaViewModel;
 import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
-import hu.pizzavalto.pizzaproject.retrofit.UserApi;
+import hu.pizzavalto.pizzaproject.retrofit.ApiService;
 import hu.pizzavalto.pizzaproject.sharedpreferences.TokenUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,8 +73,8 @@ public class MenuFragment extends Fragment {
         }
 
         NetworkService networkService = new NetworkService();
-        UserApi userApi = networkService.getRetrofit().create(UserApi.class);
-        userApi.getAllPizzas().enqueue(new Callback<List<Pizza>>() {
+        ApiService apiService = networkService.getRetrofit().create(ApiService.class);
+        apiService.getAllPizzas().enqueue(new Callback<List<Pizza>>() {
             @Override
             public void onResponse(@NonNull Call<List<Pizza>> call, @NonNull Response<List<Pizza>> response) {
                 if (!response.isSuccessful()) {

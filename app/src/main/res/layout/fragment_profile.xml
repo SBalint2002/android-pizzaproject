@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/gray">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@drawable/gradient_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/dataBox"
         android:layout_width="match_parent"

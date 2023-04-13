@@ -45,4 +45,5 @@
     <string name="one">1</string>
     <string name="delete">Törlés</string>
     <string name="pizza_name">Pizza neve</string>
+    <string name="orders">Rendelések</string>
 </resources>

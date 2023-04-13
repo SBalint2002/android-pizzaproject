@@ -60,7 +60,6 @@ public class CartFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
-        itemContainer = view.findViewById(R.id.itemContainer);
 
         init(view);
 
@@ -161,6 +160,7 @@ public class CartFragment extends Fragment {
         orderButton = view.findViewById(R.id.orderButton);
         sumAllPrice = view.findViewById(R.id.sumAllPrice);
         emptyCart = view.findViewById(R.id.emptyCart);
+        itemContainer = view.findViewById(R.id.itemContainer);
     }
 
 

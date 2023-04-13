@@ -1,10 +1,14 @@
 package hu.pizzavalto.pizzaproject.sharedpreferences;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
-import hu.pizzavalto.pizzaproject.auth.RefreshRequest;
-import hu.pizzavalto.pizzaproject.retrofit.UserApi;
+import hu.pizzavalto.pizzaproject.components.LoginActivity;
+import hu.pizzavalto.pizzaproject.components.MainPage;
+import hu.pizzavalto.pizzaproject.retrofit.ApiService;
 import retrofit2.Callback;
 
 public class TokenUtils {
@@ -45,11 +49,10 @@ public class TokenUtils {
         editor.apply();
     }
 
-    public static void refreshUserToken(TokenUtils tokenUtils, UserApi userApi, Callback<JwtResponse> callback) {
+    public static void refreshUserToken(TokenUtils tokenUtils, ApiService apiService, Callback<JwtResponse> callback) {
         String refreshToken = tokenUtils.getRefreshToken();
         if (refreshToken != null) {
-            RefreshRequest refreshRequest = new RefreshRequest(refreshToken);
-            userApi.refreshToken(refreshRequest).enqueue(callback);
+            apiService.refreshToken(refreshToken).enqueue(callback);
         }
     }
 }

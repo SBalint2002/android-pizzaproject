@@ -1,6 +1,7 @@
 package hu.pizzavalto.pizzaproject.components;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -25,7 +26,7 @@ import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
 import hu.pizzavalto.pizzaproject.model.User;
 import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
-import hu.pizzavalto.pizzaproject.retrofit.UserApi;
+import hu.pizzavalto.pizzaproject.retrofit.ApiService;
 import hu.pizzavalto.pizzaproject.sharedpreferences.TokenUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +40,7 @@ public class MainPage extends AppCompatActivity {
     private DrawerLayout mainPageLayout;
     private MenuItem logoutMenuItem;
     private NavController navController;
-
+    public static Activity mainActivity;
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +86,8 @@ public class MainPage extends AppCompatActivity {
 
         navController = Navigation.findNavController(this, R.id.navHostFragment);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
     }
 
     private void showLogoutConfirmationDialog() {
@@ -107,8 +110,8 @@ public class MainPage extends AppCompatActivity {
             return;
         }
 
-        UserApi userApi = new NetworkService().getRetrofit().create(UserApi.class);
-        userApi.getUserInformation("Bearer " + accessToken).enqueue(new Callback<User>() {
+        ApiService apiService = new NetworkService().getRetrofit().create(ApiService.class);
+        apiService.getUserInformation("Bearer " + accessToken).enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if (response.isSuccessful()) {
@@ -123,7 +126,7 @@ public class MainPage extends AppCompatActivity {
                     }
 
                 } else {
-                    handleResponseCode(response.code(), tokenUtils, userApi);
+                    handleResponseCode(response.code(), tokenUtils, apiService);
                 }
             }
 
@@ -134,15 +137,15 @@ public class MainPage extends AppCompatActivity {
         });
     }
 
-    private void handleResponseCode(int code, TokenUtils tokenUtils, UserApi userApi) {
+    private void handleResponseCode(int code, TokenUtils tokenUtils, ApiService apiService) {
         if (code == 451) {
-            handleTokenRefresh(tokenUtils, userApi);
+            handleTokenRefresh(tokenUtils, apiService);
         } else {
             navigateToLoginActivity();
         }
     }
 
-    private void handleTokenRefresh(TokenUtils tokenUtils, UserApi userApi) {
+    private void handleTokenRefresh(TokenUtils tokenUtils, ApiService apiService) {
         String refreshToken = tokenUtils.getRefreshToken();
         if (refreshToken == null) {
             System.out.println("Hiányzó refreshtoken");
@@ -150,7 +153,7 @@ public class MainPage extends AppCompatActivity {
             return;
         }
 
-        TokenUtils.refreshUserToken(tokenUtils, userApi, new Callback<JwtResponse>() {
+        TokenUtils.refreshUserToken(tokenUtils, apiService, new Callback<JwtResponse>() {
             @Override
             public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
                 if (response.isSuccessful()) {

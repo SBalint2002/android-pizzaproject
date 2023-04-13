@@ -1,7 +1,5 @@
 package hu.pizzavalto.pizzaproject.model;
 
-import androidx.annotation.NonNull;
-
 public class Pizza {
     private Long id;
     private String name;

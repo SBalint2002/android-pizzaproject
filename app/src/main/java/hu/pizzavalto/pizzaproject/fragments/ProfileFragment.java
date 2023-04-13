@@ -23,7 +23,7 @@ import hu.pizzavalto.pizzaproject.components.MainPage;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
 import hu.pizzavalto.pizzaproject.model.User;
 import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
-import hu.pizzavalto.pizzaproject.retrofit.UserApi;
+import hu.pizzavalto.pizzaproject.retrofit.ApiService;
 import hu.pizzavalto.pizzaproject.sharedpreferences.TokenUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -131,8 +131,8 @@ public class ProfileFragment extends Fragment {
             return;
         }
 
-        UserApi userApi = new NetworkService().getRetrofit().create(UserApi.class);
-        userApi.saveUser("Bearer " + accessToken, user.getId(), modifyUser).enqueue(new Callback<ResponseBody>() {
+        ApiService apiService = new NetworkService().getRetrofit().create(ApiService.class);
+        apiService.saveUser("Bearer " + accessToken, user.getId(), modifyUser).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -155,7 +155,7 @@ public class ProfileFragment extends Fragment {
 
                     orderDialog.show();
                 } else {
-                    handleResponseCode(response.code(), tokenUtils, userApi);
+                    handleResponseCode(response.code(), tokenUtils, apiService);
                 }
             }
 
@@ -166,15 +166,15 @@ public class ProfileFragment extends Fragment {
         });
     }
 
-    private void handleResponseCode(int code, TokenUtils tokenUtils, UserApi userApi) {
+    private void handleResponseCode(int code, TokenUtils tokenUtils, ApiService apiService) {
         if (code == 451) {
-            handleTokenRefresh(tokenUtils, userApi);
+            handleTokenRefresh(tokenUtils, apiService);
         } else {
             navigateToLoginActivity();
         }
     }
 
-    private void handleTokenRefresh(TokenUtils tokenUtils, UserApi userApi) {
+    private void handleTokenRefresh(TokenUtils tokenUtils, ApiService apiService) {
         String refreshToken = tokenUtils.getRefreshToken();
         if (refreshToken == null) {
             System.out.println("Hiányzó refreshtoken");
@@ -182,7 +182,7 @@ public class ProfileFragment extends Fragment {
             return;
         }
 
-        TokenUtils.refreshUserToken(tokenUtils, userApi, new Callback<JwtResponse>() {
+        TokenUtils.refreshUserToken(tokenUtils, apiService, new Callback<JwtResponse>() {
             @Override
             public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
                 if (!response.isSuccessful()) {

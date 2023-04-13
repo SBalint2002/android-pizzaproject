@@ -25,12 +25,10 @@ import java.util.Objects;
 
 import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
-import hu.pizzavalto.pizzaproject.fragments.CartFragment;
 import hu.pizzavalto.pizzaproject.model.OrderDto;
-import hu.pizzavalto.pizzaproject.model.Pizza;
 import hu.pizzavalto.pizzaproject.model.PizzaViewModel;
 import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
-import hu.pizzavalto.pizzaproject.retrofit.UserApi;
+import hu.pizzavalto.pizzaproject.retrofit.ApiService;
 import hu.pizzavalto.pizzaproject.sharedpreferences.TokenUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -86,9 +84,9 @@ public class OrderActivity extends AppCompatActivity {
         String location = Objects.requireNonNull(address_input.getText()).toString();
         String phoneNumber = Objects.requireNonNull(phone_input.getText()).toString();
         OrderDto orderDto = new OrderDto(location, phoneNumber, pizzaIdList);
-        UserApi userApi = new NetworkService().getRetrofit().create(UserApi.class);
+        ApiService apiService = new NetworkService().getRetrofit().create(ApiService.class);
         System.out.println("OrderDto{location='" + orderDto.getLocation() + "', phoneNumber='" + orderDto.getPhoneNumber() + "', pizzaIds=" + orderDto.getPizzaIds().toString() + "}");
-        userApi.addOrder("Bearer " + accessToken, orderDto).enqueue(new Callback<ResponseBody>() {
+        apiService.addOrder("Bearer " + accessToken, orderDto).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
@@ -107,17 +105,19 @@ public class OrderActivity extends AppCompatActivity {
 
                     okButton.setOnClickListener(add -> {
                         pizzaViewModel.clear();
+                        pizzaViewModel.setPizzaIds(new HashMap<>());
+
                         orderAddedDialog.dismiss();
-                        MainPage mainPage = (MainPage) add.getContext();
-                        mainPage.finish();
+
                         Intent intent = new Intent(OrderActivity.this, MainPage.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                         finish();
                     });
 
                     orderAddedDialog.show();
                 }else{
-                    handleResponseCode(response.code(), tokenUtils, userApi);
+                    handleResponseCode(response.code(), tokenUtils, apiService);
                 }
 
             }
@@ -129,15 +129,15 @@ public class OrderActivity extends AppCompatActivity {
         });
     }
 
-    private void handleResponseCode(int code, TokenUtils tokenUtils, UserApi userApi) {
+    private void handleResponseCode(int code, TokenUtils tokenUtils, ApiService apiService) {
         if (code == 451) {
-            handleTokenRefresh(tokenUtils, userApi);
+            handleTokenRefresh(tokenUtils, apiService);
         } else {
             navigateToLoginActivity();
         }
     }
 
-    private void handleTokenRefresh(TokenUtils tokenUtils, UserApi userApi) {
+    private void handleTokenRefresh(TokenUtils tokenUtils, ApiService apiService) {
         String refreshToken = tokenUtils.getRefreshToken();
         if (refreshToken == null) {
             System.out.println("Hiányzó refreshtoken");
@@ -145,7 +145,7 @@ public class OrderActivity extends AppCompatActivity {
             return;
         }
 
-        TokenUtils.refreshUserToken(tokenUtils, userApi, new Callback<JwtResponse>() {
+        TokenUtils.refreshUserToken(tokenUtils, apiService, new Callback<JwtResponse>() {
             @Override
             public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
                 if (response.isSuccessful()) {
