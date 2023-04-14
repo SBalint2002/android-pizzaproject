@@ -69,7 +69,7 @@ public class OrderActivity extends AppCompatActivity {
         TokenUtils tokenUtils = new TokenUtils(OrderActivity.this);
         String accessToken = tokenUtils.getAccessToken();
         if (accessToken == null) {
-            finish();
+            navigateToLoginActivity();
         }
         HashMap<Long, Integer> pizzaIds = (HashMap<Long, Integer>) getIntent().getSerializableExtra("pizzaIds");
         List<Long> pizzaIdList = new ArrayList<>();
@@ -85,7 +85,7 @@ public class OrderActivity extends AppCompatActivity {
         String phoneNumber = Objects.requireNonNull(phone_input.getText()).toString();
         OrderDto orderDto = new OrderDto(location, phoneNumber, pizzaIdList);
         ApiService apiService = new NetworkService().getRetrofit().create(ApiService.class);
-        System.out.println("OrderDto{location='" + orderDto.getLocation() + "', phoneNumber='" + orderDto.getPhoneNumber() + "', pizzaIds=" + orderDto.getPizzaIds().toString() + "}");
+
         apiService.addOrder("Bearer " + accessToken, orderDto).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(@NonNull Call<ResponseBody> call, @NonNull Response<ResponseBody> response) {
@@ -117,6 +117,9 @@ public class OrderActivity extends AppCompatActivity {
 
                     orderAddedDialog.show();
                 }else{
+                    System.out.println(response.message());
+                    System.out.println(orderDto);
+                    System.out.println(accessToken);
                     handleResponseCode(response.code(), tokenUtils, apiService);
                 }
 

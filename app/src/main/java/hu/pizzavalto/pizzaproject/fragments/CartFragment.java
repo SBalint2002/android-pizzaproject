@@ -40,7 +40,6 @@ public class CartFragment extends Fragment {
     private Button orderButton;
     private TextView sumAllPrice, emptyCart;
     private int price = 0;
-
     public CartFragment() {
         // Required empty public constructor
     }
@@ -52,12 +51,14 @@ public class CartFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("Baj");
         pizzaViewModel = new ViewModelProvider(requireActivity()).get(PizzaViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        System.out.println("Baj2");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
@@ -72,7 +73,7 @@ public class CartFragment extends Fragment {
                 intent.putExtra("pizzaIds", pizzaIds);
                 intent.putExtra("price", getPrice());
                 startActivity(intent);
-            }else{
+            } else {
                 Toast.makeText(getContext(), "A kosár üres!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -87,9 +88,9 @@ public class CartFragment extends Fragment {
 
         HashMap<Long, Integer> pizzaIds = pizzaViewModel.getPizzaIds();
 
-        if (pizzaIds.isEmpty()){
+        if (pizzaIds.isEmpty()) {
             emptyCart.setVisibility(VISIBLE);
-        }else {
+        } else {
             emptyCart.setVisibility(GONE);
         }
 
@@ -145,7 +146,7 @@ public class CartFragment extends Fragment {
                     pizzaViewModel.setPizzaIds(pizzaIds);
                     pizzaViewModel.getPizzas().remove(pizza);
                     updatePrice(price - count[0] * pizza.getPrice());
-                    if (pizzaIds.isEmpty()){
+                    if (pizzaIds.isEmpty()) {
                         emptyCart.setVisibility(VISIBLE);
                     }
                 });

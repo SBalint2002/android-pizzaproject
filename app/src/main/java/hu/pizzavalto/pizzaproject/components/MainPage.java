@@ -40,7 +40,6 @@ public class MainPage extends AppCompatActivity {
     private DrawerLayout mainPageLayout;
     private MenuItem logoutMenuItem;
     private NavController navController;
-    public static Activity mainActivity;
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
