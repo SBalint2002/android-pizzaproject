@@ -101,7 +101,6 @@ public class RegisterActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
                     //Ha 409-es hibakódot küld vissza akkor az email cím foglalt
-                    System.out.println("onResponse: " + response.code());
                     if (response.code() == 409) {
 
 
@@ -151,8 +150,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(@NonNull Call<JwtResponse> call, @NonNull Throwable t) {
-                    System.out.println("onFailure: " + t);
-                    System.out.println("onFailure: " + call);
                     Toast.makeText(RegisterActivity.this, "Ismeretlen hiba", Toast.LENGTH_SHORT).show();
                 }
             });

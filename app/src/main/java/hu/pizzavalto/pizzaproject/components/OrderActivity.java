@@ -118,8 +118,6 @@ public class OrderActivity extends AppCompatActivity {
                     orderAddedDialog.show();
                 } else {
                     System.out.println(response.message());
-                    System.out.println(orderDto);
-                    System.out.println(accessToken);
                     handleResponseCode(response.code(), tokenUtils, apiService);
                 }
 

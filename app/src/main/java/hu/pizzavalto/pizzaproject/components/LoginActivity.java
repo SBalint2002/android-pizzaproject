@@ -81,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
                             //Ha 403-as hibakódot küld vissza akkor ha nem sikerül belépni
-                            System.out.println("onResponse: " + response.code());
                             if (response.code() == 403) {
 
                                 //Custom Toast
@@ -127,7 +126,15 @@ public class LoginActivity extends AppCompatActivity {
                                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                                 finish();
                             } else {
-                                System.out.println(response.code());
+                                LayoutInflater inflater = getLayoutInflater();
+                                View layout = inflater.inflate(R.layout.toast,
+                                        findViewById(R.id.toast_layout_root));
+                                TextView text = layout.findViewById(R.id.text);
+                                text.setText("Ismeretlen hiba!");
+                                Toast toast = new Toast(getApplicationContext());
+                                toast.setDuration(Toast.LENGTH_SHORT);
+                                toast.setView(layout);
+                                toast.show();
                             }
                         }
 

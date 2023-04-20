@@ -77,13 +77,8 @@ public class MenuFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<List<Pizza>> call, @NonNull Response<List<Pizza>> response) {
                 if (!response.isSuccessful()) {
-                    if (response.code() == 401) {
-                        System.out.println("Nincs hozzáférés 401-es status kód");
-                        navigateToLoginActivity();
-                    } else {
-                        System.out.println("Valami más status code" + response.code());
-                        navigateToLoginActivity();
-                    }
+                    navigateToLoginActivity();
+                    System.out.println("status code: " + response.code());
                     return;
                 }
 
