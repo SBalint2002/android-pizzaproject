@@ -1,13 +1,9 @@
 package hu.pizzavalto.pizzaproject.sharedpreferences;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 
-import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.auth.JwtResponse;
-import hu.pizzavalto.pizzaproject.components.LoginActivity;
-import hu.pizzavalto.pizzaproject.components.MainPage;
 import hu.pizzavalto.pizzaproject.retrofit.ApiService;
 import retrofit2.Callback;
 

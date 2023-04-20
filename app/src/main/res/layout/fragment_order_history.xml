@@ -3,21 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.OrderHistoryFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".fragments.OrderHistoryFragment">
 
     <LinearLayout
+        android:id="@+id/orderContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/orderContainer">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/emptyOrdersText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Még nem rendéltél semmit!"/>
+            android:text="@string/noOrdersYet" />
 
     </LinearLayout>
 

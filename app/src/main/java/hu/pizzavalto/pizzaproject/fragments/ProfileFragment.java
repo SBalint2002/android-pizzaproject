@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -61,12 +62,44 @@ public class ProfileFragment extends Fragment {
 
         saveProfileButton.setOnClickListener(saveProfile -> {
             String password = null;
-            if (!profilePassword.getText().toString().isEmpty()){
-                if (profilePassword.getText().length() < 6){
-                    System.out.println("Legalább 6 karakter legyen");
+            if (!profilePassword.getText().toString().isEmpty()) {
+                if (profilePassword.getText().length() < 6) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                    builder.setMessage("A jelszónak minimum 6 karakterből kell állnia.")
+                            .setTitle("Figyelem")
+                            .setPositiveButton("OK", null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                     return;
                 }
                 password = profilePassword.getText().toString();
+            }
+            if (profileFirstName.length() < 2 || profileFirstName.length() > 50) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                builder.setMessage("A keresztnévnek 2 és 50 karakter közöttinek kell lennie!")
+                        .setTitle("Figyelem")
+                        .setPositiveButton("OK", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return;
+            }
+            if (profileLastName.length() < 2 || profileLastName.length() > 50) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                builder.setMessage("A vezetéknévnek 2 és 50 karakter közöttinek kell lennie!")
+                        .setTitle("Figyelem")
+                        .setPositiveButton("OK", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return;
+            }
+            if (!isValidEmail(profileEmail.getText().toString())){
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                builder.setMessage("Nem megfelelő email formátum!")
+                        .setTitle("Figyelem")
+                        .setPositiveButton("OK", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                return;
             }
             modifyUser = new User(
                     user.getId(),
@@ -79,6 +112,11 @@ public class ProfileFragment extends Fragment {
         });
 
         return view;
+    }
+
+    public static boolean isValidEmail(String email) {
+        String pattern = "^[a-zA-Z/d._%+-]+@[a-zA-Z/d.-]+\\.[a-zA-Z]{2,}$";
+        return email.matches(pattern);
     }
 
     private final TextWatcher textWatcher = new TextWatcher() {

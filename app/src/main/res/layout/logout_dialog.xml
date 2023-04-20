@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Adatok módosítása"
+        android:text="@string/changedata"
         android:textColor="@android:color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -22,18 +22,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
-        android:text="A módosítások mentése érdekében indítsa újra az alkalmazást!"
+        android:text="@string/relogin_to_save"
         android:textSize="16sp" />
 
     <Button
         android:id="@+id/btn_ok"
         style="?android:attr/buttonBarButtonStyle"
         android:layout_width="250dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_margin="5dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Újraindítás"
+        android:text="@string/reload"
         android:textColor="@color/colorPrimaryText"
         android:textStyle="bold" />
 

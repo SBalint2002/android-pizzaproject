@@ -8,7 +8,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/dataBox"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:background="@color/colorlightgray"
@@ -22,130 +22,142 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:background="@color/gray"
-                android:minHeight="80dp">
+                android:minHeight="80dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Profil adatok"
-                    android:textAlignment="center"
-                    android:gravity="center"
-                    android:textColor="@color/white"
                     android:background="@color/colorPrimary"
-                    android:textSize="20dp"
+                    android:gravity="center"
+                    android:text="@string/profileInformation"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/lastname"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/profileLastName"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_text_bg"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéőúűóüöÍíÁÉŐÚŰÓÜÖ"
-                android:hint="@string/lastname"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingStart="5sp"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryText"
-                android:textColorHint="#7F7F7F"
-                android:textSize="18sp"
-                tools:ignore="RtlSymmetry" />
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="@string/firstname"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <EditText
-                android:id="@+id/profileFirstName"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_text_bg"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéőúűóüöÍíÁÉŐÚŰÓÜÖ"
-                android:hint="@string/firstname"
-                android:inputType="text"
-                android:maxLines="1"
-                android:paddingStart="5sp"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryText"
-                android:textColorHint="#7F7F7F"
-                android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/lastname"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="@string/emailaddress"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/profileLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="10dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edit_text_bg"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéőúűóüöÍíÁÉŐÚŰÓÜÖ"
+                    android:hint="@string/lastname"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingStart="5sp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textColorHint="#757575"
+                    android:textSize="18sp"
+                    tools:ignore="RtlSymmetry,DuplicateSpeakableTextCheck" />
 
-            <EditText
-                android:id="@+id/profileEmail"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_text_bg"
-                android:hint="@string/emailaddress"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:paddingStart="5sp"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryText"
-                android:textColorHint="#7F7F7F"
-                android:textSize="18sp"
-                tools:ignore="RtlSymmetry" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/firstname"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="@string/password"
-                android:textColor="@color/colorPrimaryText"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/profileFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="10dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edit_text_bg"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZáéőúűóüöÍíÁÉŐÚŰÓÜÖ"
+                    android:hint="@string/firstname"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingStart="5sp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textColorHint="#757575"
+                    android:textSize="18sp"
+                    tools:ignore="RtlSymmetry,DuplicateSpeakableTextCheck" />
 
-            <EditText
-                android:id="@+id/profilePassword"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/edit_text_bg"
-                android:hint="@string/password"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:paddingStart="5sp"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryText"
-                android:textColorHint="#7F7F7F"
-                android:textSize="18sp"
-                tools:ignore="RtlSymmetry" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/emailaddress"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profileEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="10dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edit_text_bg"
+                    android:hint="@string/emailaddress"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:paddingStart="5sp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textColorHint="#757575"
+                    android:textSize="18sp"
+                    tools:ignore="RtlSymmetry,DuplicateSpeakableTextCheck" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/password"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/profilePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="10dp"
+                    android:autofillHints=""
+                    android:background="@drawable/edit_text_bg"
+                    android:hint="@string/password"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:paddingStart="5sp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimaryText"
+                    android:textColorHint="#757575"
+                    android:textSize="18sp"
+                    tools:ignore="RtlSymmetry,DuplicateSpeakableTextCheck" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/saveProfileButton"
@@ -153,10 +165,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
+                android:background="@color/colorPrimary"
                 android:enabled="false"
                 android:text="@string/save"
                 android:textColor="@color/white"
-                android:background="@color/colorPrimary"
                 android:textSize="18sp" />
 
         </LinearLayout>

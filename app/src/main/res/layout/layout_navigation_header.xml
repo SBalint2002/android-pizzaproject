@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="50dp"
     android:paddingStart="20dp"
+    android:paddingTop="50dp"
     android:paddingEnd="50dp"
     android:paddingBottom="20dp">
 
@@ -25,30 +25,30 @@
         app:layout_constraintBottom_toBottomOf="@id/imageProfile"
         app:layout_constraintEnd_toEndOf="@+id/imageProfile"
         app:layout_constraintStart_toStartOf="@+id/imageProfile"
-        app:layout_constraintTop_toTopOf="@id/imageProfile"/>
+        app:layout_constraintTop_toTopOf="@id/imageProfile" />
 
     <TextView
         android:id="@+id/ProfileName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Név"
+        android:maxLines="1"
+        android:text="@string/name"
         android:textColor="@color/colorPrimaryText"
         android:textSize="18sp"
-        android:maxLines="1"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/viewSupporter"
-        app:layout_constraintStart_toEndOf="@id/imageProfile"/>
+        app:layout_constraintStart_toEndOf="@id/imageProfile" />
 
     <TextView
         android:id="@+id/ProfileRole"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:text="Admin|User"
-        android:textColor="#FF0000"
+        android:text="@string/admin_user"
+        android:textColor="#DD2C00"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@id/imageProfile"
-        app:layout_constraintTop_toBottomOf="@id/viewSupporter"/>
+        app:layout_constraintTop_toBottomOf="@id/viewSupporter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

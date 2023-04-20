@@ -26,11 +26,7 @@ public class NetworkService {
 
         Gson gson = new GsonBuilder().setLenient().create();
 
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(clientBuilder.build())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
+        retrofit = new Retrofit.Builder().baseUrl(BASE_URL).client(clientBuilder.build()).addConverterFactory(GsonConverterFactory.create(gson)).build();
     }
 
     public Retrofit getRetrofit() {

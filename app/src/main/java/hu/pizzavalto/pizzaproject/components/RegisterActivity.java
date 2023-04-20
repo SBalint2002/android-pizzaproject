@@ -61,8 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                 //Custom Toast
                 LayoutInflater inflater = getLayoutInflater();
-                View layout = inflater.inflate(R.layout.toast,
-                        findViewById(R.id.toast_layout_root));
+                View layout = inflater.inflate(R.layout.toast, findViewById(R.id.toast_layout_root));
                 TextView text = layout.findViewById(R.id.text);
                 text.setText("Minden mezőt ki kell tölteni!");
                 Toast toast = new Toast(getApplicationContext());
@@ -73,19 +72,19 @@ public class RegisterActivity extends AppCompatActivity {
                 return;
             }
 
-            if (TextUtils.isEmpty(lastname)){
+            if (TextUtils.isEmpty(lastname)) {
                 return;
             }
 
-            if (TextUtils.isEmpty(firstname)){
+            if (TextUtils.isEmpty(firstname)) {
                 return;
             }
 
-            if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 return;
             }
 
-            if (TextUtils.isEmpty(password)){
+            if (TextUtils.isEmpty(password)) {
                 return;
             }
 
@@ -98,68 +97,65 @@ public class RegisterActivity extends AppCompatActivity {
 
             //Api request-ek kezelésére
             ApiService apiService = new NetworkService().getRetrofit().create(ApiService.class);
-            apiService.registerUser(user)
-                    .enqueue(new Callback<JwtResponse>() {
-                        @Override
-                        public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
-                            //Ha 409-es hibakódot küld vissza akkor az email cím foglalt
-                            System.out.println("onResponse: " + response.code());
-                            if (response.code() == 409) {
+            apiService.registerUser(user).enqueue(new Callback<JwtResponse>() {
+                @Override
+                public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
+                    //Ha 409-es hibakódot küld vissza akkor az email cím foglalt
+                    System.out.println("onResponse: " + response.code());
+                    if (response.code() == 409) {
 
 
-                                //Custom Toast
-                                LayoutInflater inflater = getLayoutInflater();
-                                View layout = inflater.inflate(R.layout.toast,
-                                        findViewById(R.id.toast_layout_root));
-                                TextView text = layout.findViewById(R.id.text);
-                                text.setText("Foglalt email cím");
-                                Toast toast = new Toast(getApplicationContext());
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.setView(layout);
-                                toast.show();
+                        //Custom Toast
+                        LayoutInflater inflater = getLayoutInflater();
+                        View layout = inflater.inflate(R.layout.toast, findViewById(R.id.toast_layout_root));
+                        TextView text = layout.findViewById(R.id.text);
+                        text.setText("Foglalt email cím");
+                        Toast toast = new Toast(getApplicationContext());
+                        toast.setDuration(Toast.LENGTH_SHORT);
+                        toast.setView(layout);
+                        toast.show();
 
-                            } else {
-                                JwtResponse jwtResponse = response.body();
-                                String jwtToken = null;
-                                if (jwtResponse != null) {
-                                    jwtToken = jwtResponse.getAccessToken();
-                                }
-                                String refreshToken = null;
-                                if (jwtResponse != null) {
-                                    refreshToken = jwtResponse.getRefreshToken();
-                                }
-
-                                //SharedPreferencies
-                                TokenUtils tokenUtils = new TokenUtils(RegisterActivity.this);
-                                tokenUtils.saveAccessToken(jwtToken);
-                                tokenUtils.setRefreshToken(refreshToken);
-
-                                //Custom Toast
-                                LayoutInflater inflater = getLayoutInflater();
-                                View layout = inflater.inflate(R.layout.toast,
-                                        findViewById(R.id.toast_layout_root));
-                                TextView text = layout.findViewById(R.id.text);
-                                text.setText("Sikeres regisztrálás");
-                                Toast toast = new Toast(getApplicationContext());
-                                toast.setDuration(Toast.LENGTH_SHORT);
-                                toast.setView(layout);
-                                toast.show();
-
-
-                                //Intent
-                                startActivity(new Intent(RegisterActivity.this, MainPage.class));
-                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                finish();
-                            }
+                    } else {
+                        JwtResponse jwtResponse = response.body();
+                        String jwtToken = null;
+                        if (jwtResponse != null) {
+                            jwtToken = jwtResponse.getAccessToken();
+                        }
+                        String refreshToken = null;
+                        if (jwtResponse != null) {
+                            refreshToken = jwtResponse.getRefreshToken();
                         }
 
-                        @Override
-                        public void onFailure(@NonNull Call<JwtResponse> call, @NonNull Throwable t) {
-                            System.out.println("onFailure: " + t);
-                            System.out.println("onFailure: " + call);
-                            Toast.makeText(RegisterActivity.this, "Ismeretlen hiba", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        //SharedPreferencies
+                        TokenUtils tokenUtils = new TokenUtils(RegisterActivity.this);
+                        tokenUtils.saveAccessToken(jwtToken);
+                        tokenUtils.setRefreshToken(refreshToken);
+
+                        //Custom Toast
+                        LayoutInflater inflater = getLayoutInflater();
+                        View layout = inflater.inflate(R.layout.toast, findViewById(R.id.toast_layout_root));
+                        TextView text = layout.findViewById(R.id.text);
+                        text.setText("Sikeres regisztrálás");
+                        Toast toast = new Toast(getApplicationContext());
+                        toast.setDuration(Toast.LENGTH_SHORT);
+                        toast.setView(layout);
+                        toast.show();
+
+
+                        //Intent
+                        startActivity(new Intent(RegisterActivity.this, MainPage.class));
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        finish();
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<JwtResponse> call, @NonNull Throwable t) {
+                    System.out.println("onFailure: " + t);
+                    System.out.println("onFailure: " + call);
+                    Toast.makeText(RegisterActivity.this, "Ismeretlen hiba", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
     }
 

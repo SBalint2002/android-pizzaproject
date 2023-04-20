@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SupportFragment"
+    android:background="@color/gray"
     android:orientation="vertical"
-    android:background="@color/gray">
+    tools:context=".fragments.SupportFragment">
 
     <TextView
         android:layout_width="match_parent"
@@ -13,12 +13,12 @@
         android:background="@color/colorlightgray"
         android:gravity="center"
         android:text="@string/doyouhavequestion"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="@drawable/gradient_background"/>
+        android:background="@drawable/gradient_background" />
 
     <TextView
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:gravity="center"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:text="Keresse bátran munkatársainkat bármely telefonszámunkon, esetleg e-mail címünkön!"
+        android:text="@string/contactUs"
         android:textAlignment="center"
         android:textSize="20sp" />
 
@@ -43,7 +43,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="@drawable/gradient_background"/>
+        android:background="@drawable/gradient_background" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -76,12 +76,12 @@
         android:background="@color/colorlightgray"
         android:gravity="center"
         android:text="@string/emailcontact"
-        android:textSize="20sp"/>
+        android:textSize="20sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="@drawable/gradient_background"/>
+        android:background="@drawable/gradient_background" />
 
     <TextView
         android:layout_width="match_parent"

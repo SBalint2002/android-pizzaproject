@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -8,37 +9,37 @@
     app:cardElevation="4dp">
 
     <RelativeLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/image_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/pizza_picture"
-            android:scaleType="fitStart"
+            android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
-            android:layout_alignParentTop="true"/>
+            android:contentDescription="@string/pizza_picture"
+            android:scaleType="fitStart" />
 
         <TextView
             android:id="@+id/name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/image_view"
+            android:gravity="top|center_horizontal"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:gravity="top|center_horizontal"
-            android:textStyle="bold"
-            android:layout_below="@id/image_view"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/price_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
             android:layout_below="@id/name_text_view"
             android:layout_marginTop="4dp"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -46,32 +47,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/price_text_view"
-            android:paddingBottom="10dp"
-            android:paddingTop="20dp">
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp">
 
             <Button
                 android:id="@+id/order_button"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="30dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/item_button"
                 android:text="@string/order_button_text"
                 android:textColor="@color/white"
-                android:background="@drawable/item_button"
                 android:textSize="12sp"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="5dp"/>
+                tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
 
             <Button
                 android:id="@+id/details_button"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="30dp"
-                android:text="Részletek"
-                android:textColor="@color/white"
-                android:background="@drawable/item_button"
-                android:textSize="12sp"
                 android:layout_marginStart="5dp"
-                android:layout_marginEnd="15dp" />
+                android:layout_marginEnd="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/item_button"
+                android:text="@string/details"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
 
         </LinearLayout>
 

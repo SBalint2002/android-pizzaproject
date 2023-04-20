@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:orientation="vertical">
@@ -18,13 +19,14 @@
             android:gravity="center_vertical"
             android:paddingStart="10dp"
             android:text="@string/pizza_name"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            tools:ignore="RtlSymmetry" />
 
         <Button
             android:id="@+id/button_minus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:background="?android:attr/selectableItemBackground"
             android:text="@string/minus"
             android:textColor="@color/black" />
@@ -35,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="0"
+            android:text="@string/_0"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -43,7 +45,7 @@
             android:id="@+id/button_plus"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:background="?android:attr/selectableItemBackground"
             android:text="@string/plus"
             android:textColor="@color/black" />
@@ -54,7 +56,7 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:gravity="center"
-            android:text="Ár Ft"
+            android:text="@string/sumPriceStartValue"
             android:textColor="@color/black" />
 
         <Button
@@ -63,7 +65,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:background="?android:attr/selectableItemBackground"
-            android:text="x"
+            android:text="@string/x"
             android:textColor="@color/black" />
 
     </LinearLayout>

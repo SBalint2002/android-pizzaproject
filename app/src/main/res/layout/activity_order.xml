@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".components.OrderActivity"
+    android:gravity="center"
     android:orientation="vertical"
-    android:gravity="center">
+    tools:context=".components.OrderActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -14,14 +14,14 @@
         android:layout_marginEnd="20dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Rendelés"
+        android:text="@string/order"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="30sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="320dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
@@ -32,17 +32,18 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cím:"
-            android:textSize="20sp"
-            android:textColor="@color/colorPrimary"/>
+            android:text="@string/address"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/address_input"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:drawableStart="@drawable/baseline_location_on_24"
             android:drawablePadding="10sp"
-            android:hint="Tartózkodási hely"
+            android:hint="@string/location"
             android:inputType="text"
             android:maxLines="1"
             android:singleLine="true"
@@ -51,17 +52,18 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Telefonszám:"
-            android:textSize="20sp"
-            android:textColor="@color/colorPrimary"/>
+            android:text="@string/phonenumber"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20sp" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/phone_input"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:drawableStart="@drawable/baseline_local_phone_24"
             android:drawablePadding="10sp"
-            android:hint="Telefonszám"
+            android:hint="@string/phonenumber_"
             android:inputType="text"
             android:maxLines="1"
             android:singleLine="true"
@@ -71,14 +73,14 @@
 
     <TextView
         android:id="@+id/fullPrice"
-        android:layout_width="match_parent"
+        android:layout_width="320dp"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_weight="1"
-        android:text="Fizetendő összeg:"
-        android:textSize="16sp"
-        android:textColor="@color/colorPrimary"/>
+        android:text="@string/sumPrice"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -90,15 +92,17 @@
 
         <Button
             android:id="@+id/backButton"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:text="Vissza" />
+            android:layout_gravity="center_horizontal"
+            android:text="@string/back" />
 
         <Button
             android:id="@+id/orderButton"
-            android:layout_width="match_parent"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:text="Megrendelés" />
+            android:layout_gravity="center_horizontal"
+            android:text="@string/ordering" />
 
     </LinearLayout>
 

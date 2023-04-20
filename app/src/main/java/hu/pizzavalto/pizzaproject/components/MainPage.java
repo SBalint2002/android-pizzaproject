@@ -1,7 +1,6 @@
 package hu.pizzavalto.pizzaproject.components;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -40,6 +39,7 @@ public class MainPage extends AppCompatActivity {
     private DrawerLayout mainPageLayout;
     private MenuItem logoutMenuItem;
     private NavController navController;
+
     @SuppressLint("SourceLockedOrientationActivity")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +58,11 @@ public class MainPage extends AppCompatActivity {
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> textTitle.setText(destination.getLabel()));
     }
 
-    public User getUser(){
+    public User getUser() {
         return user;
     }
 
-    private void init(){
+    private void init() {
         //NavigationView settings
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.setItemIconTintList(null);
@@ -90,15 +90,11 @@ public class MainPage extends AppCompatActivity {
     }
 
     private void showLogoutConfirmationDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Biztosan ki akarsz lépni?")
-                .setPositiveButton("Igen", (dialogInterface, i) -> {
-                    TokenUtils tokenUtils = new TokenUtils(MainPage.this);
-                    tokenUtils.clearTokens();
-                    navigateToLoginActivity();
-                })
-                .setNegativeButton("Nem", (dialogInterface, i) -> dialogInterface.dismiss())
-                .show();
+        new AlertDialog.Builder(this).setTitle("Biztosan ki akarsz lépni?").setPositiveButton("Igen", (dialogInterface, i) -> {
+            TokenUtils tokenUtils = new TokenUtils(MainPage.this);
+            tokenUtils.clearTokens();
+            navigateToLoginActivity();
+        }).setNegativeButton("Nem", (dialogInterface, i) -> dialogInterface.dismiss()).show();
     }
 
     private void getUserInformation() {

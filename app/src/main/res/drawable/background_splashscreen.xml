@@ -3,8 +3,8 @@
 
     <item>
         <bitmap
-            android:src="@drawable/splashscreen"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/splashscreen" />
     </item>
 
 </layer-list>

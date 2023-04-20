@@ -1,12 +1,14 @@
 package hu.pizzavalto.pizzaproject.model;
 
+import androidx.annotation.NonNull;
+
 public class Pizza {
     private Long id;
     private String name;
-    private int price;
-    private String description;
-    private String picture;
-    private boolean available;
+    private final int price;
+    private final String description;
+    private final String picture;
+    private final boolean available;
 
     public Pizza(Long id, String name, int price, String description, String picture, boolean available) {
         this.id = id;
@@ -37,43 +39,21 @@ public class Pizza {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
     public boolean isAvailable() {
         return available;
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
+    @NonNull
     @Override
     public String toString() {
-        return "Pizza{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", description='" + description + '\'' +
-                ", picture='" + picture + '\'' +
-                ", available=" + available +
-                '}';
+        return "Pizza{" + "id=" + id + ", name='" + name + '\'' + ", price=" + price + ", description='" + description + '\'' + ", picture='" + picture + '\'' + ", available=" + available + '}';
     }
 }

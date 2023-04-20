@@ -17,12 +17,9 @@ public class SplashScreen extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(SplashScreen.this, MainPage.class));
-                finish();
-            }
-        },0);
+        new Handler().postDelayed(() -> {
+            startActivity(new Intent(SplashScreen.this, MainPage.class));
+            finish();
+        }, 0);
     }
 }

@@ -24,8 +24,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import hu.pizzavalto.pizzaproject.R;
-import hu.pizzavalto.pizzaproject.components.LoginActivity;
-import hu.pizzavalto.pizzaproject.components.MainPage;
 import hu.pizzavalto.pizzaproject.components.OrderActivity;
 import hu.pizzavalto.pizzaproject.model.Pizza;
 import hu.pizzavalto.pizzaproject.model.PizzaViewModel;
@@ -40,6 +38,7 @@ public class CartFragment extends Fragment {
     private Button orderButton;
     private TextView sumAllPrice, emptyCart;
     private int price = 0;
+
     public CartFragment() {
         // Required empty public constructor
     }
@@ -56,8 +55,7 @@ public class CartFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         System.out.println("Baj2");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
@@ -97,7 +95,7 @@ public class CartFragment extends Fragment {
         for (Long pizzaId : pizzaIds.keySet()) {
             Optional<Integer> pizzaIdValue = Optional.ofNullable(pizzaIds.get(pizzaId));
             if (pizzaIdValue.isPresent()) {
-                final int[] count = {pizzaIdValue.get()};
+                final int[] count = {pizzaIdValue.orElse(0)};
                 Pizza pizza = pizzaViewModel.getPizzas().stream().filter((x) -> Objects.equals(x.getId(), pizzaId)).findFirst().get();
 
                 View cartItem = LayoutInflater.from(getActivity()).inflate(R.layout.cart_item, (ViewGroup) getView(), false);
@@ -151,8 +149,7 @@ public class CartFragment extends Fragment {
                     }
                 });
             } else {
-                // handle the null case
-                System.out.println("The pizza with the selected Id doesn't exists!");
+                System.out.println("Pizza ezzel az id-val nem létezik!");
             }
         }
     }

@@ -96,7 +96,6 @@ public class LoginActivity extends AppCompatActivity {
                                 toast.show();
 
 
-
                             } else if (response.code() == 200) {
                                 JwtResponse jwtResponse = response.body();
                                 String accessToken = null;
@@ -141,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void init(){
+    private void init() {
         register = findViewById(R.id.RegisterTextView);
         emailText = findViewById(R.id.email_input);
         passwordText = findViewById(R.id.password_input);

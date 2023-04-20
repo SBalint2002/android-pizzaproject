@@ -65,7 +65,7 @@ public class OrderActivity extends AppCompatActivity {
         fullPrice.setText("Fizetendő összeg: " + getIntent().getIntExtra("price", 0) + " Ft");
     }
 
-    private void order(){
+    private void order() {
         TokenUtils tokenUtils = new TokenUtils(OrderActivity.this);
         String accessToken = tokenUtils.getAccessToken();
         if (accessToken == null) {
@@ -116,7 +116,7 @@ public class OrderActivity extends AppCompatActivity {
                     });
 
                     orderAddedDialog.show();
-                }else{
+                } else {
                     System.out.println(response.message());
                     System.out.println(orderDto);
                     System.out.println(accessToken);
@@ -179,7 +179,7 @@ public class OrderActivity extends AppCompatActivity {
         finish();
     }
 
-    private void init(){
+    private void init() {
         backButton = findViewById(R.id.backButton);
         orderButton = findViewById(R.id.orderButton);
 

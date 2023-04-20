@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray"
@@ -25,14 +25,16 @@
             android:id="@+id/emptyCart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="A kosárban nincs termék!"
-            android:textSize="20sp"
+            android:gravity="center"
+            android:text="@string/noItemFound"
             android:textColor="@color/colorPrimaryText"
-            android:gravity="center"/>
+            android:textSize="20sp"
+            tools:ignore="VisualLintOverlap" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:ignore="SpeakableTextPresentCheck">
 
             <LinearLayout
                 android:id="@+id/itemContainer"
@@ -57,7 +59,7 @@
             android:id="@+id/sumAllPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fizetendő összeg: 0 Ft"
+            android:text="@string/payToGo"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="20sp" />
@@ -68,9 +70,9 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:text="Megrendelés"
-            android:textColor="@color/white"
-            android:background="@color/colorPrimary"/>
+            android:background="@color/colorPrimary"
+            android:text="@string/ordering"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 

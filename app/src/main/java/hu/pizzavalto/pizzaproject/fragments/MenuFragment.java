@@ -52,8 +52,7 @@ public class MenuFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
         pizzasContainer = view.findViewById(R.id.pizzasContainer);
         pizzas2Container = view.findViewById(R.id.pizzas2Container);
@@ -186,7 +185,7 @@ public class MenuFragment extends Fragment {
                         });
 
                         nextindex++;
-                        if (nextindex % 2 != 0){
+                        if (nextindex % 2 != 0) {
                             pizzasContainer.addView(pizzaView);
                         } else {
                             pizzas2Container.addView(pizzaView);

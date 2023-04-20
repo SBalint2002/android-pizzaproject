@@ -12,8 +12,9 @@
 
     <LinearLayout
         android:id="@+id/inputFields"
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_marginBottom="30dp"
         android:orientation="vertical"
         android:padding="30dp">
@@ -31,83 +32,89 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
-            android:text="Hozzon létre egy új fiókot"
+            android:text="@string/registernewaccount"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/lastName_input"
-            android:layout_width="match_parent"
+            android:layout_width="340dp"
             android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_text_bg"
             android:drawableStart="@drawable/baseline_person_24"
             android:drawablePadding="10sp"
             android:hint="@string/lastname"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:inputType="textPersonName"
             android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:singleLine="true"
-            android:textColorHint="@color/colorPrimaryText" />
+            android:textColorHint="@color/black" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/firstName_input"
-            android:layout_width="match_parent"
+            android:layout_width="340dp"
             android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_text_bg"
             android:drawableStart="@drawable/baseline_person_24"
             android:drawablePadding="10sp"
             android:hint="@string/firstname"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:inputType="textPersonName"
             android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:singleLine="true"
-            android:textColorHint="@color/colorPrimaryText" />
+            android:textColorHint="@color/black" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_input"
-            android:layout_width="match_parent"
+            android:layout_width="340dp"
             android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
             android:background="@drawable/edit_text_bg"
             android:drawableStart="@drawable/baseline_email_24"
             android:drawablePadding="10sp"
             android:hint="@string/email"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:inputType="textEmailAddress"
             android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:singleLine="true"
-            android:textColorHint="@color/colorPrimaryText" />
+            android:textColorHint="@color/black" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password_input"
-            android:layout_width="match_parent"
+            android:layout_width="340dp"
             android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:background="@drawable/edit_text_bg"
             android:drawableStart="@drawable/baseline_lock_24"
             android:drawablePadding="10sp"
             android:hint="@string/password"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:inputType="textPassword"
             android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:singleLine="true"
-            android:textColorHint="@color/colorPrimaryText" />
+            android:textColorHint="@color/black" />
 
         <Button
             android:id="@+id/registerButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:background="@drawable/oval_button"
             android:text="@string/register"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:ignore="DuplicateSpeakableTextCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -5,20 +5,20 @@
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_background"
     android:padding="16dp"
-    app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent">
+    app:layout_constraintTop_toTopOf="parent">
 
     <ImageView
         android:id="@+id/pizza_image_view"
         android:layout_width="0dp"
         android:layout_height="200dp"
+        android:contentDescription="@string/pizza"
         android:scaleType="centerCrop"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription="Pizza"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/pizza_name_text_view"
@@ -26,9 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textSize="24sp"
-        app:layout_constraintTop_toBottomOf="@id/pizza_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/pizza_image_view" />
 
     <TextView
         android:id="@+id/pizza_description_text_view"
@@ -36,17 +36,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/pizza_name_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/pizza_name_text_view" />
 
     <Button
         android:id="@+id/close_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Vissza"
-        app:layout_constraintTop_toBottomOf="@id/pizza_description_text_view"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:text="@string/back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pizza_description_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

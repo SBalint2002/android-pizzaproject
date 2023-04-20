@@ -37,7 +37,7 @@ public interface ApiService {
     Call<List<Pizza>> getAllPizzas();
 
     @POST("/order/add-order")
-    Call<ResponseBody>  addOrder(@Header("Authorization") String accessToken, @Body OrderDto orderDto);
+    Call<ResponseBody> addOrder(@Header("Authorization") String accessToken, @Body OrderDto orderDto);
 
     @GET("/order/get-orders")
     Call<List<Order>> getOrders(@Header("Authorization") String accessToken);

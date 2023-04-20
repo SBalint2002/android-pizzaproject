@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray"
     android:orientation="vertical"
     tools:context=".fragments.AboutUsFragment"
-    tools:ignore="UseCompoundDrawables"
-    android:background="@color/gray">
+    tools:ignore="UseCompoundDrawables">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/dataBox"
@@ -26,20 +26,23 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Rólunk"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                android:textColor="@color/colorPrimaryText"
+                android:layout_margin="20dp"
+                android:text="@string/aboutUs"
                 android:textAlignment="center"
-                android:layout_margin="20dp"/>
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
+                android:gravity="fill_horizontal"
                 android:text="@string/motto"
-                android:textSize="20sp" />
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:ignore="VisualLintLongText" />
 
             <ImageView
                 android:id="@+id/about_us_image"

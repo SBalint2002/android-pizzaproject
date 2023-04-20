@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".components.MainPage">
-    
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -46,12 +46,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:textAlignment="viewEnd"
+                android:fontFamily="@font/lobster_regular"
                 android:text="@string/app_name"
+                android:textAlignment="viewEnd"
                 android:textColor="@color/colorPrimaryText"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/lobster_regular"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -60,9 +60,9 @@
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:background="@drawable/gradient_background"
-            app:layout_constraintTop_toBottomOf="@id/layoutToolBar"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/layoutToolBar" />
 
         <fragment
             android:id="@+id/navHostFragment"
@@ -72,8 +72,9 @@
             app:defaultNavHost="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/shadow"
-            app:navGraph="@navigation/main" />
-        
+            app:navGraph="@navigation/main"
+            tools:ignore="FragmentTagUsage,SpeakableTextPresentCheck" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -82,6 +83,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/layout_navigation_header"
-        app:menu="@menu/navigation_menu" />
+        app:menu="@menu/navigation_menu"
+        tools:ignore="VisualLintBounds" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

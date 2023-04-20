@@ -16,6 +16,7 @@
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
+
     <style name="AppButtonStyle">
         <item name="background">@drawable/oval_button</item>
         <item name="android:textColor">@color/colorWhite</item>

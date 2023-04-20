@@ -1,8 +1,8 @@
 package hu.pizzavalto.pizzaproject.model;
 
 public class PizzaDto {
-    Long id;
-    Pizza pizza;
+    private Long id;
+    private Pizza pizza;
 
     public Long getId() {
         return id;
@@ -14,9 +14,5 @@ public class PizzaDto {
 
     public Pizza getPizza() {
         return pizza;
-    }
-
-    public void setPizza(Pizza pizza) {
-        this.pizza = pizza;
     }
 }
