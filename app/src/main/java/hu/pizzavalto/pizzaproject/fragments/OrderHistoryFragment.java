@@ -1,18 +1,16 @@
 package hu.pizzavalto.pizzaproject.fragments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,17 +29,32 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Egy {@link Fragment} alosztály, amely megjeleníti a rendelési előzményt rendelési adatokkal.
+ * Az új rendelés ami még nem zárult le az piros, a többi szürke.
  */
 public class OrderHistoryFragment extends Fragment {
 
+    /**
+     * Előzményeket tartalmazó konténer.
+     */
     private LinearLayout orderContainer;
+
+    /**
+     * Ha nem volt még korábban rendelés akkor ezt a szöveget jeleníti meg.
+     */
     private TextView emptyOrdersText;
 
-    public OrderHistoryFragment() {
-        // Required empty public constructor
-    }
 
+    /**
+     * Az onCreateView metódus feladata a fragment layoutjának inicializálása és azon belül az összes view elem
+     * inicializálása.
+     *
+     * @param inflater           Az inflater objektum segítségével hozható létre a fragment layoutja.
+     * @param container          A konténer objektum, amelybe a fragment layoutja helyezhető.
+     * @param savedInstanceState A Bundle objektum, amely a fragment előzőleg mentett állapotát tartalmazza,
+     *                           amennyiben van ilyen.
+     * @return Az inicializált layoutot tartalmazó View objektum.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -54,6 +67,12 @@ public class OrderHistoryFragment extends Fragment {
         return view;
     }
 
+    /**
+     * A megrendelési előzmények lekérdezéséhez szükséges adatokat tartalmazó függvény.
+     * Először ellenőrzi az access tokent, majd ennek megfelelően kéri le az adatokat az API szolgáltatásból.
+     * Az adatok sikeres lekérése esetén feltölti az adatokkal a megfelelő View-kat és megjeleníti őket a megfelelő helyen.
+     * Ha az adatok lekérdezése sikertelen, kezeli az esetleges hibakódokat.
+     */
     private void getOrderHistory() {
         TokenUtils tokenUtils = new TokenUtils(requireActivity());
         String accessToken = tokenUtils.getAccessToken();
@@ -64,7 +83,12 @@ public class OrderHistoryFragment extends Fragment {
 
         ApiService apiService = new NetworkService().getRetrofit().create(ApiService.class);
         apiService.getOrders("Bearer " + accessToken).enqueue(new Callback<List<Order>>() {
-            @SuppressLint("SetTextI18n")
+            /**
+             * Sikeres API hívás esetén ez a metódus fut le.
+             *
+             * @param call Válaszként várt Rendelés típusú lista.
+             * @param response A hívás válasza ami tartalmazza a hívás adatait mint például státusz kód, válasz teste..stb
+             */
             @Override
             public void onResponse(@NonNull Call<List<Order>> call, @NonNull Response<List<Order>> response) {
                 if (response.isSuccessful()) {
@@ -124,14 +148,28 @@ public class OrderHistoryFragment extends Fragment {
                 }
             }
 
+            /**
+             * Sikertelen API hívás esetén ez a metódus fut le.
+             *
+             * @param call Válaszként várt rendelés típusú lista.
+             * @param t visszadobott hibaüzenet.
+             */
             @Override
             public void onFailure(@NonNull Call<List<Order>> call, @NonNull Throwable t) {
                 navigateToLoginActivity();
             }
         });
-
     }
 
+    /**
+     * Ha nem 200-as kódot kap a rendelés feladáskor a lekérés válaszként akkor ez a metódus hívódik meg
+     * amely ha 451-es kódot kap (Lejárt access token) tovább küldi a kérést a handleTokenRefresh
+     * metódusnak, különben vissza irányít a bejelntkező oldalra.
+     *
+     * @param code       válasz státusz kódja.
+     * @param tokenUtils SharedPreferences meghívása amelyben találhatóak a tokenek
+     * @param apiService A kérés újra elküldéséhez, hogy ne kelljen megint inicializálni.
+     */
     private void handleResponseCode(int code, TokenUtils tokenUtils, ApiService apiService) {
         if (code == 451) {
             handleTokenRefresh(tokenUtils, apiService);
@@ -140,6 +178,12 @@ public class OrderHistoryFragment extends Fragment {
         }
     }
 
+    /**
+     * Lejárt access tokent esetén fut le. A refresh token segítségével kér egy újat.
+     *
+     * @param tokenUtils SharedPreferences meghívása amelyben találhatóak a tokenek
+     * @param apiService A kérés újra elküldéséhez, hogy ne kelljen megint inicializálni.
+     */
     private void handleTokenRefresh(TokenUtils tokenUtils, ApiService apiService) {
         String refreshToken = tokenUtils.getRefreshToken();
         if (refreshToken == null) {
@@ -149,6 +193,12 @@ public class OrderHistoryFragment extends Fragment {
         }
 
         TokenUtils.refreshUserToken(tokenUtils, apiService, new Callback<JwtResponse>() {
+            /**
+             * Sikeres Api hívás esetén ez a metódus fut le.
+             *
+             * @param call Válaszként várt Jwt response fájl amely tartalmazza a felhasználóhoz tartozó új access token-t és a refresh token-t.
+             * @param response A hívás válasza ami tartalmazza a hívás adatait mint például státusz kód, válasz teste..stb
+             */
             @Override
             public void onResponse(@NonNull Call<JwtResponse> call, @NonNull Response<JwtResponse> response) {
                 if (response.isSuccessful()) {
@@ -166,6 +216,12 @@ public class OrderHistoryFragment extends Fragment {
 
             }
 
+            /**
+             * Sikertelen API hívás esetén ez a metódus fut le.
+             *
+             * @param call Válaszként várt Jwt response fájl amely tartalmazza a felhasználóhoz tartozó access token-t és refresh token-t ez esetben null értékekkel.
+             * @param t visszadobott hibaüzenet.
+             */
             @Override
             public void onFailure(@NonNull Call<JwtResponse> call, @NonNull Throwable t) {
                 navigateToLoginActivity();
@@ -173,12 +229,21 @@ public class OrderHistoryFragment extends Fragment {
         });
     }
 
+    /**
+     * Meghívásakor animációval egybe fűzve vissza irányít a bejelentkező oldalra.
+     */
     private void navigateToLoginActivity() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
         requireActivity().finish();
     }
 
+    /**
+     * Inicializálja a rendeléskonténert és az üres rendelésre vonatkozó szöveget a megadott {@code view}-val.
+     * Ezek a megjelenítési elemek szolgálnak a felhasználó rendelési előzményeinek megjelenítésére.
+     *
+     * @param view a nézet, amely tartalmazza a rendeléskonténert és az üres rendelésre vonatkozó szöveget
+     */
     private void init(View view) {
         orderContainer = view.findViewById(R.id.orderContainer);
         emptyOrdersText = view.findViewById(R.id.emptyOrdersText);
