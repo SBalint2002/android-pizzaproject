@@ -5,12 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -30,40 +29,80 @@ import hu.pizzavalto.pizzaproject.R;
 import hu.pizzavalto.pizzaproject.components.LoginActivity;
 import hu.pizzavalto.pizzaproject.model.Pizza;
 import hu.pizzavalto.pizzaproject.model.PizzaViewModel;
-import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
 import hu.pizzavalto.pizzaproject.retrofit.ApiService;
+import hu.pizzavalto.pizzaproject.retrofit.NetworkService;
 import hu.pizzavalto.pizzaproject.sharedpreferences.TokenUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Egy {@link Fragment} alosztály, amely megjeleníti a pizzákat kisebb View-okban két oszlopban.
+ * A View tartalmazza a pizza képét, nevét, árát és két gombot (Rendelés, Részletek).
+ * Ezeket a pizzákat hozzá lehet adni a kosárhoz illetve meg lehet tekinteni a róluk szóló leírást.
  */
 public class MenuFragment extends Fragment {
+
+    /**
+     * Két oszlop konténereinek deklarálása.
+     */
     private LinearLayout pizzasContainer, pizzas2Container;
+
+    /**
+     * Alapértelmezett mennyiség amit hozzá lehet adni a kosárhoz.
+     */
     private int number = 1;
+
+    /**
+     * Mennyiség jelző szövegmező.
+     */
     private TextView numberTextView;
+
+    /**
+     * Pizzákat tartalmazó Lista.
+     */
     private List<Pizza> pizzas = new ArrayList<>();
+
+    /**
+     * Kosárban elmentett pizzákat tartalmazó osztály.
+     */
     private PizzaViewModel pizzaViewModel;
 
+    /**
+     * Kötelező üres konstruktor
+     */
     public MenuFragment() {
-        // Required empty public constructor
     }
 
+    /**
+     * Megjeleníti fragment_menu layout-ot, beállítja a szükséges változókat, majd visszatér a View-vel.
+     *
+     * @param inflater           A LayoutInflater objektum, amely segítségével a fragmentben található nézeteket "felfújja"(inflate).
+     * @param container          Ha nem null, ez a szülő nézet, amelyhez a fragment UI-ját csatolni kell.
+     *                           A fragment ne adja hozzá magát a nézethez, de az elrendezés LayoutParams-ek generálására használható.
+     * @param savedInstanceState Ha nem null, akkor a fragment korábbi mentett állapotából újra létrehozza.
+     * @return A létrehozott View.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
+
+        // Inicializálja a konténereket meg a view-ot ahol meg kell jeleníteni.
         pizzasContainer = view.findViewById(R.id.pizzasContainer);
         pizzas2Container = view.findViewById(R.id.pizzas2Container);
         pizzaViewModel = new ViewModelProvider(requireActivity()).get(PizzaViewModel.class);
         getAllPizzas();
 
-
         return view;
     }
 
+    /**
+     * Megjeleníti a menü helyén az összes pizzát amit megkap a lekérés során.
+     * A pizzákat egy View-ba rakja és két oszlopban jeleníti meg. A kép alatt egy található a neve, ára
+     * és egy gomb ami megnyomáskor megjeleníti a leírását egy Dialog-ban.
+     */
     private void getAllPizzas() {
+        // access token lekérése. null esetén vissza irányítás a bejelentkező oldalra
         TokenUtils tokenUtils = new TokenUtils(requireActivity());
         String accessToken = tokenUtils.getAccessToken();
         if (accessToken == null) {
@@ -71,25 +110,35 @@ public class MenuFragment extends Fragment {
             return;
         }
 
+        // Access pizzák lekéréséért felelős API request előhívása.
         NetworkService networkService = new NetworkService();
         ApiService apiService = networkService.getRetrofit().create(ApiService.class);
         apiService.getAllPizzas().enqueue(new Callback<List<Pizza>>() {
+            /**
+             * Sikeres API hívás esetén ez a metódus fut le.
+             *
+             * @param call Válaszként várt Pizza típusú lista.
+             * @param response A hívás válasza ami tartalmazza a hívás adatait mint például státusz kód, válasz teste..stb
+             */
             @Override
             public void onResponse(@NonNull Call<List<Pizza>> call, @NonNull Response<List<Pizza>> response) {
+                // Sikertelen hívás esetén vissza irányít a bejelentkező oldalra
                 if (!response.isSuccessful()) {
                     navigateToLoginActivity();
-                    System.out.println("status code: " + response.code());
                     return;
                 }
 
+                // pizzas lista érték adás
                 pizzas = response.body();
                 pizzaViewModel.setPizzas(pizzas);
 
+                // Két oszlopban jeleníti meg a listákat, ha páratlan számú pizza van akkor az utolsót bal oldalon helyezi el.
                 int nextindex = 0;
-
                 for (int i = 0; i < pizzas.size(); i++) {
                     Pizza pizza = pizzas.get(i);
+                    // Akkor jeleníti meg a pizzát ha az elérhető állapotra van állítva az adatbázisban
                     if (pizza.isAvailable()) {
+                        // item_pizza View feltöltése adatokkal.
                         View pizzaView = LayoutInflater.from(getActivity()).inflate(R.layout.item_pizza, (ViewGroup) getView(), false);
 
                         ImageView imageView = pizzaView.findViewById(R.id.image_view);
@@ -105,6 +154,7 @@ public class MenuFragment extends Fragment {
                         Button orderButton = pizzaView.findViewById(R.id.order_button);
                         Button detailsButton = pizzaView.findViewById(R.id.details_button);
 
+                        // Részletek megjelenítése Dialogban
                         detailsButton.setOnClickListener(details -> {
                             Dialog dialog = new Dialog(getActivity());
                             dialog.setContentView(R.layout.pizza_details_dialog);
@@ -133,6 +183,7 @@ public class MenuFragment extends Fragment {
                             dialog.show();
                         });
 
+                        // Rendelésre kattintva felugrik egy ablak Menyiség számítással meg plusz-minusz gombokkal
                         orderButton.setOnClickListener(order -> {
                             Dialog orderDialog = new Dialog(getActivity());
                             View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.order_dialog, (ViewGroup) getView(), false);
@@ -179,6 +230,7 @@ public class MenuFragment extends Fragment {
                             orderDialog.show();
                         });
 
+                        // A két oszlop
                         nextindex++;
                         if (nextindex % 2 != 0) {
                             pizzasContainer.addView(pizzaView);
@@ -189,6 +241,12 @@ public class MenuFragment extends Fragment {
                 }
             }
 
+            /**
+             * Sikertelen API hívás esetén ez a metódus fut le.
+             *
+             * @param call Válaszként várt Pizza típusú lista.
+             * @param t visszadobott hibaüzenet.
+             */
             @Override
             public void onFailure(@NonNull Call<List<Pizza>> call, @NonNull Throwable t) {
                 navigateToLoginActivity();
@@ -196,6 +254,9 @@ public class MenuFragment extends Fragment {
         });
     }
 
+    /**
+     * Meghívásakor animációval egybe fűzve vissza irányít a bejelentkező oldalra.
+     */
     private void navigateToLoginActivity() {
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
