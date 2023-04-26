@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"hu.pizzavalto.pizzaproject"},{"l":"hu.pizzavalto.pizzaproject.auth"},{"l":"hu.pizzavalto.pizzaproject.components"},{"l":"hu.pizzavalto.pizzaproject.fragments"},{"l":"hu.pizzavalto.pizzaproject.model"},{"l":"hu.pizzavalto.pizzaproject.retrofit"},{"l":"hu.pizzavalto.pizzaproject.sharedpreferences"}]

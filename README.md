@@ -33,3 +33,6 @@ A felhasználó számára a következő funkciók érhetők el:
 - A kosárba helyezett termékeket ellenőrizhetik és megrendelhetik azokat, megadva a szállítási címet és a telefonszámot.
 - Az előző rendeléseket meg lehet tekinteni az alkalmazásban. A készen álló rendelések szürkék, az új rendelések pirosak.
 - Frissíthetik a saját információikat. Ha egy mező nem változott az nem frissül az adatbázisban.
+
+## Dokumentáció
+A fejlesztői dokumentáció a docs mappában található az index.html megnyitásával!
