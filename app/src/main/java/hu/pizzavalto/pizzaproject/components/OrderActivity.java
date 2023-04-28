@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -111,6 +112,24 @@ public class OrderActivity extends AppCompatActivity {
      * Rendelés feladása.
      */
     private void order() {
+        // Input mezők adatainak lekérdezése
+        String address = Objects.requireNonNull(address_input.getText()).toString().trim();
+        String phone = Objects.requireNonNull(phone_input.getText()).toString().trim();
+
+        // Üres mezők ellenőrzése
+        if (address.isEmpty() || phone.isEmpty()) {
+            //Egyedi Toast
+            LayoutInflater inflater = getLayoutInflater();
+            View layout = inflater.inflate(R.layout.toast, findViewById(R.id.toast_layout_root));
+            TextView text = layout.findViewById(R.id.text);
+            text.setText("Minden mezőt ki kell tölteni!");
+            Toast toast = new Toast(getApplicationContext());
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setView(layout);
+            toast.show();
+            return;
+        }
+
         // access token lekérése. null esetén vissza irányítás a bejelentkező oldalra
         TokenUtils tokenUtils = new TokenUtils(OrderActivity.this);
         String accessToken = tokenUtils.getAccessToken();
