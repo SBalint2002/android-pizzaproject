@@ -36,3 +36,5 @@ A felhasználó számára a következő funkciók érhetők el:
 
 ## Dokumentáció
 A fejlesztői dokumentáció a docs mappában található az index.html megnyitásával!
+
+Felhasználói dokumentáció az __Android felhasználói doksi.docx__ fájlban található.
